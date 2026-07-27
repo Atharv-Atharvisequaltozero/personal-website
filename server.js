@@ -52,7 +52,7 @@ function ensureDirs() {
   const draftAch = path.join(DRAFT_DIR, 'achievements.json');
   if (!fs.existsSync(draftSite)) {
     writeJSON(draftSite, {
-      site: { name: "Your Name", title: "Your Title", tagline: "Your tagline", description: "Description", email: "email@example.com", footer: "© 2025 Your Name" },
+      site: { name: "Your Name", title: "Your Title", tagline: "Your tagline", description: "Description", email: "email@example.com", footer: "© 2026 Your Name" },
       social: { linkedin: "", facebook: "", twitter: "", github: "", instagram: "" },
       home: { hero_text: "Your hero text", hero_sub: "Your sub text", featured: [] },
       about: { intro: "Your intro", highlights: [], bio: "Your bio" },
