@@ -64,7 +64,7 @@ function ensureDirs() {
   const draftAch = path.join(DRAFT_DIR, 'achievements.json');
   if (!fs.existsSync(draftSite)) {
     writeJSON(draftSite, {
-      site: { name: "Your Name", title: "Your Title", tagline: "Your tagline", description: "Description", email: "email@example.com", footer: "© 2026 Your Name", theme: "dark" },
+      site: { name: "Your Name", title: "Your Title", tagline: "Your tagline", description: "Description", email: "email@example.com", footer: "© 2026 Your Name", theme: "midnight" },
       social: { linkedin: "", facebook: "", twitter: "", github: "", instagram: "" },
       home: { hero_text: "Your hero text", hero_sub: "Your sub text", featured: [] },
       about: { intro: "Your intro", highlights: [], bio: "Your bio" },
@@ -75,6 +75,8 @@ function ensureDirs() {
 }
 
 function getToken(req) {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) return authHeader.slice(7);
   const match = (req.headers.cookie || '').match(/admin_token=([^;]+)/);
   return match ? match[1] : null;
 }
@@ -95,7 +97,7 @@ app.post('/api/login', (req, res) => {
   if (username === ADMIN_USER && bcrypt.compareSync(password, ADMIN_PASS_HASH)) {
     const token = signToken({ admin: true, exp: Date.now() + 30 * 24 * 60 * 60 * 1000 });
     res.setHeader('Set-Cookie', `admin_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`);
-    return res.json({ success: true });
+    return res.json({ success: true, token });
   }
   res.status(401).json({ error: 'Invalid credentials' });
 });

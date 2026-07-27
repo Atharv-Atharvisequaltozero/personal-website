@@ -1,6 +1,7 @@
 let draft = null;
 let achievements = [];
-let selectedTheme = 'dark';
+let selectedTheme = 'midnight';
+let authToken = localStorage.getItem('admin_token') || '';
 
 const categoryColors = {
   'Student Council': '#3b82f6', 'STEM': '#10b981', 'Scouts': '#f59e0b',
@@ -8,8 +9,12 @@ const categoryColors = {
   'Business': '#06b6d4', 'default': '#6b7280'
 };
 
+function authHeaders() {
+  return authToken ? { 'Authorization': 'Bearer ' + authToken } : {};
+}
+
 async function checkAuth() {
-    const res = await fetch('/api/auth/check', { credentials: 'include' });
+    const res = await fetch('/api/auth/check', { credentials: 'include', headers: authHeaders() });
     const data = await res.json();
     if (data.admin) { showAdmin(); loadDraft(); }
     else { showLogin(); }
@@ -31,21 +36,29 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   const pass = document.getElementById('login-pass').value;
     const res = await fetch('/api/login', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify({ username: user, password: pass })
     });
-  if (res.ok) { showAdmin(); loadDraft(); }
+  if (res.ok) {
+    const data = await res.json();
+    if (data.token) {
+      authToken = data.token;
+      localStorage.setItem('admin_token', data.token);
+    }
+    showAdmin(); loadDraft();
+  }
   else { document.getElementById('login-error').style.display = 'block'; }
 });
 
 function logout() {
-  fetch('/api/logout', { method: 'POST', credentials: 'include' });
+  fetch('/api/logout', { method: 'POST', headers: authHeaders() });
+  authToken = '';
+  localStorage.removeItem('admin_token');
   showLogin();
 }
 
 async function loadDraft() {
   try {
-    const res = await fetch('/api/draft', { credentials: 'include' });
+    const res = await fetch('/api/draft', { headers: authHeaders() });
     const data = await res.json();
     draft = data.site || {};
     achievements = data.achievements || [];
@@ -356,13 +369,11 @@ async function saveActivities() { await saveDraft(); }
 async function saveDraft() {
   try {
     await fetch('/api/draft/site', {
-      method: 'PUT', headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      method: 'PUT', headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify(draft)
     });
     await fetch('/api/draft/achievements', {
-      method: 'PUT', headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      method: 'PUT', headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify(achievements)
     });
     toast('Saved to draft');
@@ -372,7 +383,7 @@ async function saveDraft() {
 async function publishSite() {
   try {
     await saveDraft();
-    const res = await fetch('/api/publish', { method: 'POST', credentials: 'include' });
+    const res = await fetch('/api/publish', { method: 'POST', headers: authHeaders() });
     if (res.ok) toast('Site published!', 'success');
     else toast('Publish failed', 'error');
   } catch (err) { toast('Publish error', 'error'); }

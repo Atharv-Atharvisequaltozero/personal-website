@@ -86,20 +86,20 @@
         <div style="margin-bottom:32px;">
           <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">Theme</div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;" id="dash-theme-options">
-            <button class="theme-pick active" data-theme="dark" onclick="selectTheme('dark')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
-              <div style="width:32px;height:32px;border-radius:50%;background:#0a0a0b;border:1px solid #1e1e21;margin:0 auto 8px;"></div>
-              <div style="font-size:12px;font-weight:600;color:var(--text);">Dark</div>
-              <div style="font-size:11px;color:var(--muted);">Classic</div>
-            </button>
-            <button class="theme-pick" data-theme="midnight" onclick="selectTheme('midnight')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
+            <button class="theme-pick active" data-theme="midnight" onclick="selectTheme('midnight')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
               <div style="width:32px;height:32px;border-radius:50%;background:#0c0e14;border:1px solid #1c2030;margin:0 auto 8px;"></div>
               <div style="font-size:12px;font-weight:600;color:var(--text);">Midnight</div>
-              <div style="font-size:11px;color:var(--muted);">Modern</div>
+              <div style="font-size:11px;color:var(--muted);">Sleek</div>
+            </button>
+            <button class="theme-pick" data-theme="chill" onclick="selectTheme('chill')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
+              <div style="width:32px;height:32px;border-radius:50%;background:#1a1714;border:1px solid #2e2a24;margin:0 auto 8px;"></div>
+              <div style="font-size:12px;font-weight:600;color:var(--text);">Chill</div>
+              <div style="font-size:11px;color:var(--muted);">Warm</div>
             </button>
             <button class="theme-pick" data-theme="light" onclick="selectTheme('light')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
-              <div style="width:32px;height:32px;border-radius:50%;background:#ffffff;border:1px solid #e5e5e5;margin:0 auto 8px;"></div>
+              <div style="width:32px;height:32px;border-radius:50%;background:#ffffff;border:1px solid #d4d4d4;margin:0 auto 8px;"></div>
               <div style="font-size:12px;font-weight:600;color:var(--text);">Light</div>
-              <div style="font-size:11px;color:var(--muted);">Professional</div>
+              <div style="font-size:11px;color:var(--muted);">Clean</div>
             </button>
           </div>
         </div>
@@ -150,20 +150,20 @@
           <div class="card-title" style="margin-bottom:20px;">Theme</div>
           <p style="color:var(--text2);font-size:13px;margin-bottom:16px;">Choose a color theme for your public site.</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;" id="theme-options">
-            <button class="theme-pick active" data-theme="dark" onclick="selectTheme('dark')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
-              <div style="width:32px;height:32px;border-radius:50%;background:#0a0a0b;border:1px solid #1e1e21;margin:0 auto 8px;"></div>
-              <div style="font-size:12px;font-weight:600;color:var(--text);">Dark</div>
-              <div style="font-size:11px;color:var(--muted);">Classic</div>
-            </button>
-            <button class="theme-pick" data-theme="midnight" onclick="selectTheme('midnight')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
+            <button class="theme-pick active" data-theme="midnight" onclick="selectTheme('midnight')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
               <div style="width:32px;height:32px;border-radius:50%;background:#0c0e14;border:1px solid #1c2030;margin:0 auto 8px;"></div>
               <div style="font-size:12px;font-weight:600;color:var(--text);">Midnight</div>
-              <div style="font-size:11px;color:var(--muted);">Modern</div>
+              <div style="font-size:11px;color:var(--muted);">Sleek</div>
+            </button>
+            <button class="theme-pick" data-theme="chill" onclick="selectTheme('chill')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
+              <div style="width:32px;height:32px;border-radius:50%;background:#1a1714;border:1px solid #2e2a24;margin:0 auto 8px;"></div>
+              <div style="font-size:12px;font-weight:600;color:var(--text);">Chill</div>
+              <div style="font-size:11px;color:var(--muted);">Warm</div>
             </button>
             <button class="theme-pick" data-theme="light" onclick="selectTheme('light')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
-              <div style="width:32px;height:32px;border-radius:50%;background:#ffffff;border:1px solid #e5e5e5;margin:0 auto 8px;"></div>
+              <div style="width:32px;height:32px;border-radius:50%;background:#ffffff;border:1px solid #d4d4d4;margin:0 auto 8px;"></div>
               <div style="font-size:12px;font-weight:600;color:var(--text);">Light</div>
-              <div style="font-size:11px;color:var(--muted);">Professional</div>
+              <div style="font-size:11px;color:var(--muted);">Clean</div>
             </button>
           </div>
         </div>

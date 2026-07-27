@@ -33,7 +33,7 @@ async function init() {
   }
 
   renderNav();
-  document.body.setAttribute('data-theme', (getSettings().theme || 'dark'));
+  document.body.setAttribute('data-theme', (getSettings().theme || 'midnight'));
   renderPage('home');
   renderFooter();
 }
