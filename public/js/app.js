@@ -95,10 +95,22 @@ function renderHome() {
   const h = d.home || {};
   const activities = (d.activities || []).filter(a => a.enabled);
   const featured = (h.featured || []).filter(id => activities.find(a => a.id === id));
+  const now = d.now || [];
 
   document.getElementById('page-home').innerHTML = `
     <h1 class="hero-text">${h.hero_text || ''}</h1>
     <p class="hero-sub">${h.hero_sub || ''}</p>
+    ${now.length ? `
+      <div class="now-section">
+        <div class="now-heading">Now</div>
+        <div class="now-list">
+          ${now.map(item => `
+            <div class="now-item">
+              <div class="now-icon"><i class="fas ${item.icon}"></i></div>
+              <div><span class="now-title">${item.title}</span> — ${item.description}</div>
+            </div>`).join('')}
+        </div>
+      </div>` : ''}
     ${featured.length ? `
       <div class="featured-grid">
         ${featured.map(id => {
@@ -245,6 +257,10 @@ function renderAchievementEntry(ach) {
           <a href="${ach.evidence.url}" target="_blank" rel="noopener noreferrer">
             <i class="fas fa-external-link-alt"></i> ${ach.evidence.description || 'View Evidence'}
           </a>
+        </div>` : ''}
+      ${ach.photos && ach.photos.length ? `
+        <div class="activity-photo-grid">
+          ${ach.photos.map(p => `<div class="activity-photo-item"><img src="${p.src}" alt="${p.alt || ''}" loading="lazy"></div>`).join('')}
         </div>` : ''}
     </div>`;
 }

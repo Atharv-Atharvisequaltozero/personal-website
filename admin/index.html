@@ -53,6 +53,9 @@
         <button class="sidebar-link" data-section="about" onclick="showSection('about')">
           <i class="fas fa-user"></i><span>About Page</span>
         </button>
+        <button class="sidebar-link" data-section="now" onclick="showSection('now')">
+          <i class="fas fa-bolt"></i><span>Now</span>
+        </button>
         <button class="sidebar-link" data-section="activities" onclick="showSection('activities')">
           <i class="fas fa-folder"></i><span>Activities</span>
         </button>
@@ -249,6 +252,22 @@
         </div>
       </div>
 
+      <!-- NOW -->
+      <div class="editor-section" id="section-now">
+        <div class="top-bar">
+          <h1>Now</h1>
+          <div class="top-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveNow()"><i class="fas fa-save"></i> Save</button>
+            <button class="btn btn-ghost btn-sm" onclick="openNowModal()"><i class="fas fa-plus"></i> Add Item</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:8px;">What I'm Working On</div>
+          <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">Show visitors what you're currently focused on. Update this every few months.</p>
+          <div class="activity-list" id="now-list"></div>
+        </div>
+      </div>
+
       <!-- ACTIVITIES -->
       <div class="editor-section" id="section-activities">
         <div class="top-bar">
@@ -337,6 +356,14 @@
           <label class="form-label">Achievements (one per line)</label>
           <textarea class="form-input" id="act-field-achs" rows="4" placeholder="Best Delegate at Harvard MUN&#10;Started school's MUN program"></textarea>
         </div>
+        <div class="form-group">
+          <label class="form-label">Photos</label>
+          <div class="photo-upload-area" onclick="document.getElementById('act-field-photos').click()">
+            <input type="file" id="act-field-photos" accept="image/*" onchange="uploadActivityPhoto(this)">
+            <i class="fas fa-camera" style="font-size:16px;margin-bottom:4px;display:block;"></i>Click to upload photos
+          </div>
+          <div class="photo-grid" id="act-photo-grid" data-photos="[]"></div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost btn-sm" onclick="closeModal('activity-modal')">Cancel</button>
@@ -397,6 +424,14 @@
           </div>
         </div>
         <div class="form-group">
+          <label class="form-label">Photos</label>
+          <div class="photo-upload-area" onclick="document.getElementById('ach-field-photos').click()">
+            <input type="file" id="ach-field-photos" accept="image/*" onchange="uploadAchPhoto(this)">
+            <i class="fas fa-camera" style="font-size:16px;margin-bottom:4px;display:block;"></i>Click to upload photos
+          </div>
+          <div class="photo-grid" id="ach-photo-grid" data-photos="[]"></div>
+        </div>
+        <div class="form-group">
           <label class="form-label">Show on public site?</label>
           <div style="padding-top:8px;">
             <button class="toggle active" id="ach-field-public" onclick="this.classList.toggle('active')"></button>
@@ -412,6 +447,35 @@
 
   <!-- TOAST -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
+
+  <!-- NOW MODAL -->
+  <div class="modal-overlay" id="now-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="now-modal-title">Add Now Item</h2>
+        <button class="modal-close" onclick="closeModal('now-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="now-edit-idx" value="">
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-input" id="now-field-title" placeholder="e.g. Robotics">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Icon (FontAwesome class)</label>
+          <input type="text" class="form-input" id="now-field-icon" placeholder="e.g. fa-robot">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-input" id="now-field-desc" rows="2" placeholder="What you're working on..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('now-modal')">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveNowItem()">Save</button>
+      </div>
+    </div>
+  </div>
 
   <script src="/admin/js/admin.js"></script>
 </body>

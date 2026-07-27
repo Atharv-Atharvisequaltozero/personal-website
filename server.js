@@ -68,6 +68,12 @@ function ensureDirs() {
       social: { linkedin: "", facebook: "", twitter: "", github: "", instagram: "" },
       home: { hero_text: "Your hero text", hero_sub: "Your sub text", featured: [] },
       about: { intro: "Your intro", highlights: [], bio: "Your bio" },
+      now: [
+        { icon: "fa-robot", title: "Robotics", description: "Building and competing with my robotics team." },
+        { icon: "fa-globe", title: "MUN", description: "Exploring international policy and AI governance." },
+        { icon: "fa-brain", title: "Learning", description: "Developing my skills in AI, Python, and engineering." },
+        { icon: "fa-rocket", title: "Next", description: "Exploring the intersection of AI, robotics, and public policy." }
+      ],
       activities: []
     });
   }

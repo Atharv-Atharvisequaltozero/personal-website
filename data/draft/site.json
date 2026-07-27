@@ -31,6 +31,12 @@
     ],
     "bio": "Growing up in Milpitas, I've always been drawn to leadership roles and hands-on problem solving. From founding my school's Origami Club to organizing recreational sports leagues and competing in international STEM competitions, I've learned that the best way to create change is to take action. Every experience has taught me something new about teamwork, resilience, and the power of community."
   },
+  "now": [
+    { "icon": "fa-robot", "title": "Robotics", "description": "Building and competing with my robotics team." },
+    { "icon": "fa-globe", "title": "MUN", "description": "Exploring international policy and AI governance." },
+    { "icon": "fa-brain", "title": "Learning", "description": "Developing my skills in AI, Python, and engineering." },
+    { "icon": "fa-rocket", "title": "Next", "description": "Exploring the intersection of AI, robotics, and public policy." }
+  ],
   "activities": [
     {
       "id": "council",

@@ -1,5 +1,6 @@
 let draft = null;
 let achievements = [];
+let nowItems = [];
 let selectedTheme = 'midnight';
 let authToken = localStorage.getItem('admin_token') || '';
 
@@ -8,6 +9,79 @@ const categoryColors = {
   'Sports': '#8b5cf6', 'Community': '#ec4899', 'Leadership': '#f97316',
   'Business': '#06b6d4', 'default': '#6b7280'
 };
+
+async function uploadPhoto(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const res = await fetch('/api/upload', { method: 'POST', headers: authHeaders(), body: formData });
+    if (res.ok) { const data = await res.json(); return data.url; }
+    else { toast('Upload failed', 'error'); return null; }
+  } catch { toast('Upload error', 'error'); return null; }
+}
+
+function photoUploadHtml(id, label) {
+  return `<div class="photo-upload-area" onclick="document.getElementById('${id}').click()">
+    <input type="file" id="${id}" accept="image/*" onchange="handlePhotoUpload(this, '${id.replace('-upload', '-grid')}')">
+    <i class="fas fa-camera" style="font-size:16px;margin-bottom:4px;display:block;"></i>${label || 'Click to upload photo'}
+  </div>`;
+}
+
+async function handlePhotoUpload(input, gridId) {
+  if (!input.files.length) return;
+  const url = await uploadPhoto(input.files[0]);
+  if (!url) return;
+  const grid = document.getElementById(gridId);
+  if (grid) {
+    const photos = JSON.parse(grid.dataset.photos || '[]');
+    photos.push({ src: url, alt: '' });
+    grid.dataset.photos = JSON.stringify(photos);
+    renderPhotoGrid(gridId, photos);
+  }
+  input.value = '';
+}
+
+function renderPhotoGrid(gridId, photos) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  grid.innerHTML = photos.map((p, i) => `
+    <div class="photo-thumb">
+      <img src="${p.src}" alt="${p.alt || ''}">
+      <button class="photo-remove" onclick="removePhoto('${gridId}', ${i})"><i class="fas fa-times"></i></button>
+    </div>`).join('');
+}
+
+function removePhoto(gridId, idx) {
+  const grid = document.getElementById(gridId);
+  const photos = JSON.parse(grid.dataset.photos || '[]');
+  photos.splice(idx, 1);
+  grid.dataset.photos = JSON.stringify(photos);
+  renderPhotoGrid(gridId, photos);
+}
+
+async function uploadActivityPhoto(input) {
+  if (!input.files.length) return;
+  const url = await uploadPhoto(input.files[0]);
+  if (!url) return;
+  const grid = document.getElementById('act-photo-grid');
+  const photos = JSON.parse(grid.dataset.photos || '[]');
+  photos.push({ src: url, alt: '' });
+  grid.dataset.photos = JSON.stringify(photos);
+  renderPhotoGrid('act-photo-grid', photos);
+  input.value = '';
+}
+
+async function uploadAchPhoto(input) {
+  if (!input.files.length) return;
+  const url = await uploadPhoto(input.files[0]);
+  if (!url) return;
+  const grid = document.getElementById('ach-photo-grid');
+  const photos = JSON.parse(grid.dataset.photos || '[]');
+  photos.push({ src: url, alt: '' });
+  grid.dataset.photos = JSON.stringify(photos);
+  renderPhotoGrid('ach-photo-grid', photos);
+  input.value = '';
+}
 
 function authHeaders() {
   return authToken ? { 'Authorization': 'Bearer ' + authToken } : {};
@@ -60,9 +134,10 @@ async function loadDraft() {
   try {
     const res = await fetch('/api/draft', { headers: authHeaders() });
     const data = await res.json();
-    draft = data.site || {};
-    achievements = data.achievements || [];
-    populateAll();
+  draft = data.site || {};
+  achievements = data.achievements || [];
+  nowItems = draft.now || [];
+  populateAll();
   } catch (err) { console.error('Load error:', err); }
 }
 
@@ -99,6 +174,7 @@ function populateAll() {
 
   renderFeaturedCheckboxes();
   renderHighlights();
+  renderNowList();
   renderActivityList();
   renderAchievements();
   renderStats();
@@ -155,6 +231,76 @@ function addHighlight() {
 function updateHighlight(i, val) { draft.about.highlights[i] = val; }
 function removeHighlight(i) { draft.about.highlights.splice(i, 1); renderHighlights(); }
 
+function renderNowList() {
+  if (!nowItems.length) {
+    document.getElementById('now-list').innerHTML =
+      '<p style="color:var(--muted);font-size:13px;">No items yet. Add what you\'re working on.</p>';
+    return;
+  }
+  document.getElementById('now-list').innerHTML = nowItems.map((item, i) => `
+    <div class="activity-item">
+      <div class="activity-info">
+        <div class="activity-icon" style="background:var(--accent);22;color:var(--accent);"><i class="fas ${item.icon}"></i></div>
+        <div>
+          <div class="activity-name">${escapeHtml(item.title)}</div>
+          <div class="activity-desc">${escapeHtml(item.description)}</div>
+        </div>
+      </div>
+      <div class="activity-actions">
+        <button class="icon-btn" onclick="editNowItem(${i})" title="Edit"><i class="fas fa-pen"></i></button>
+        <button class="icon-btn danger" onclick="deleteNowItem(${i})" title="Delete"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`).join('');
+}
+
+function openNowModal() {
+  document.getElementById('now-edit-idx').value = '';
+  document.getElementById('now-field-title').value = '';
+  document.getElementById('now-field-icon').value = 'fa-star';
+  document.getElementById('now-field-desc').value = '';
+  document.getElementById('now-modal-title').textContent = 'Add Now Item';
+  openModal('now-modal');
+}
+
+function editNowItem(idx) {
+  const item = nowItems[idx];
+  if (!item) return;
+  document.getElementById('now-edit-idx').value = idx;
+  document.getElementById('now-field-title').value = item.title || '';
+  document.getElementById('now-field-icon').value = item.icon || 'fa-star';
+  document.getElementById('now-field-desc').value = item.description || '';
+  document.getElementById('now-modal-title').textContent = 'Edit Now Item';
+  openModal('now-modal');
+}
+
+function saveNowItem() {
+  const idx = document.getElementById('now-edit-idx').value;
+  const item = {
+    icon: document.getElementById('now-field-icon').value || 'fa-star',
+    title: document.getElementById('now-field-title').value,
+    description: document.getElementById('now-field-desc').value
+  };
+  if (idx !== '') { nowItems[parseInt(idx)] = item; }
+  else { nowItems.push(item); }
+  draft.now = nowItems;
+  closeModal('now-modal');
+  renderNowList();
+  toast('Item saved (draft)');
+}
+
+function deleteNowItem(idx) {
+  if (!confirm('Delete this item?')) return;
+  nowItems.splice(idx, 1);
+  draft.now = nowItems;
+  renderNowList();
+  toast('Item deleted (draft)');
+}
+
+async function saveNow() {
+  draft.now = nowItems;
+  await saveDraft();
+}
+
 function renderActivityList() {
   const activities = draft.activities || [];
   if (!activities.length) {
@@ -188,6 +334,9 @@ function openActivityModal() {
   document.getElementById('act-field-desc').value = '';
   document.getElementById('act-field-achs').value = '';
   document.getElementById('act-modal-title').textContent = 'New Activity';
+  const grid = document.getElementById('act-photo-grid');
+  grid.dataset.photos = '[]';
+  renderPhotoGrid('act-photo-grid', []);
   openModal('activity-modal');
 }
 
@@ -202,12 +351,17 @@ function editActivity(id) {
   act.enabled ? toggle.classList.add('active') : toggle.classList.remove('active');
   document.getElementById('act-field-desc').value = act.description || '';
   document.getElementById('act-field-achs').value = (act.achievements || []).join('\n');
+  const photos = act.images || [];
+  const grid = document.getElementById('act-photo-grid');
+  grid.dataset.photos = JSON.stringify(photos);
+  renderPhotoGrid('act-photo-grid', photos);
   document.getElementById('act-modal-title').textContent = 'Edit Activity';
   openModal('activity-modal');
 }
 
 function saveActivity() {
   const editId = document.getElementById('act-edit-id').value;
+  const actPhotos = JSON.parse(document.getElementById('act-photo-grid').dataset.photos || '[]');
   const data = {
     id: editId || 'act_' + Date.now(),
     title: document.getElementById('act-field-title').value,
@@ -216,7 +370,7 @@ function saveActivity() {
     enabled: document.getElementById('act-field-enabled').classList.contains('active'),
     description: document.getElementById('act-field-desc').value,
     achievements: document.getElementById('act-field-achs').value.split('\n').filter(x => x.trim()),
-    images: [], videos: []
+    images: actPhotos, videos: []
   };
   if (!draft.activities) draft.activities = [];
   if (editId) {
@@ -276,6 +430,9 @@ function openAchModal() {
   document.getElementById('ach-field-evidence-desc').value = '';
   document.getElementById('ach-field-public').classList.add('active');
   document.getElementById('ach-modal-title').textContent = 'New Achievement';
+  const grid = document.getElementById('ach-photo-grid');
+  grid.dataset.photos = '[]';
+  renderPhotoGrid('ach-photo-grid', []);
   openModal('ach-modal');
 }
 
@@ -294,12 +451,17 @@ function editAchievement(id) {
   document.getElementById('ach-field-evidence-desc').value = (ach.evidence || {}).description || '';
   const toggle = document.getElementById('ach-field-public');
   ach.public !== false ? toggle.classList.add('active') : toggle.classList.remove('active');
+  const photos = ach.photos || [];
+  const grid = document.getElementById('ach-photo-grid');
+  grid.dataset.photos = JSON.stringify(photos);
+  renderPhotoGrid('ach-photo-grid', photos);
   document.getElementById('ach-modal-title').textContent = 'Edit Achievement';
   openModal('ach-modal');
 }
 
 function saveAchievement() {
   const editId = document.getElementById('ach-edit-id').value;
+  const achPhotos = JSON.parse(document.getElementById('ach-photo-grid').dataset.photos || '[]');
   const data = {
     id: editId || 'ach_' + Date.now(),
     achievement: document.getElementById('ach-field-title').value,
@@ -310,6 +472,7 @@ function saveAchievement() {
     result: document.getElementById('ach-field-result').value,
     skills: document.getElementById('ach-field-skills').value.split('\n').filter(x => x.trim()),
     evidence: { url: document.getElementById('ach-field-evidence-url').value, description: document.getElementById('ach-field-evidence-desc').value },
+    photos: achPhotos,
     public: document.getElementById('ach-field-public').classList.contains('active')
   };
   if (editId) { const idx = achievements.findIndex(a => a.id === editId); if (idx >= 0) achievements[idx] = data; }
