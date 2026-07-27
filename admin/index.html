@@ -83,11 +83,28 @@
           </div>
         </div>
         <div class="card-grid" id="stats-grid"></div>
-        <div class="card" style="margin-top:20px;">
-          <div class="card-header">
-            <div class="card-title">Unsaved Draft vs Published</div>
-            <button class="btn btn-success btn-sm" onclick="publishSite()"><i class="fas fa-rocket"></i> Publish All Changes</button>
+        <div style="margin-bottom:32px;">
+          <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">Theme</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;" id="dash-theme-options">
+            <button class="theme-pick active" data-theme="dark" onclick="selectTheme('dark')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
+              <div style="width:32px;height:32px;border-radius:50%;background:#0a0a0b;border:1px solid #1e1e21;margin:0 auto 8px;"></div>
+              <div style="font-size:12px;font-weight:600;color:var(--text);">Dark</div>
+              <div style="font-size:11px;color:var(--muted);">Classic</div>
+            </button>
+            <button class="theme-pick" data-theme="midnight" onclick="selectTheme('midnight')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
+              <div style="width:32px;height:32px;border-radius:50%;background:#0c0e14;border:1px solid #1c2030;margin:0 auto 8px;"></div>
+              <div style="font-size:12px;font-weight:600;color:var(--text);">Midnight</div>
+              <div style="font-size:11px;color:var(--muted);">Modern</div>
+            </button>
+            <button class="theme-pick" data-theme="light" onclick="selectTheme('light')" style="width:120px;padding:16px;border:2px solid var(--border);border-radius:8px;background:var(--surface);cursor:pointer;text-align:center;">
+              <div style="width:32px;height:32px;border-radius:50%;background:#ffffff;border:1px solid #e5e5e5;margin:0 auto 8px;"></div>
+              <div style="font-size:12px;font-weight:600;color:var(--text);">Light</div>
+              <div style="font-size:11px;color:var(--muted);">Professional</div>
+            </button>
           </div>
+        </div>
+        <div style="margin-bottom:32px;">
+          <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">Quick Actions</div>
           <p style="color:var(--text2);font-size:14px;">Click <strong>Publish</strong> to push all your draft changes to the live site. Your visitors will only see what's been published.</p>
         </div>
       </div>
