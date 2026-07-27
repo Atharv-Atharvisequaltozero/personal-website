@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Personal Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-box">
+      <h1>Admin</h1>
+      <p class="subtitle">Sign in to manage your website</p>
+      <div class="login-error" id="login-error">Invalid username or password</div>
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-input" id="login-user" placeholder="admin" autocomplete="username" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="login-pass" placeholder="Enter password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-layout" id="admin-panel" style="display:none;">
+
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <h2>Admin Panel</h2>
+        <span>Manage your website</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="sidebar-link active" data-section="dashboard" onclick="showSection('dashboard')">
+          <i class="fas fa-th-large"></i><span>Dashboard</span>
+        </button>
+        <button class="sidebar-link" data-section="site" onclick="showSection('site')">
+          <i class="fas fa-globe"></i><span>Site Settings</span>
+        </button>
+        <button class="sidebar-link" data-section="home" onclick="showSection('home')">
+          <i class="fas fa-home"></i><span>Home Page</span>
+        </button>
+        <button class="sidebar-link" data-section="about" onclick="showSection('about')">
+          <i class="fas fa-user"></i><span>About Page</span>
+        </button>
+        <button class="sidebar-link" data-section="activities" onclick="showSection('activities')">
+          <i class="fas fa-folder"></i><span>Activities</span>
+        </button>
+        <div class="sidebar-divider"></div>
+        <button class="sidebar-link" data-section="achievements" onclick="showSection('achievements')">
+          <i class="fas fa-trophy"></i><span>Achievements</span>
+        </button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="sidebar-link" onclick="window.open('/', '_blank')">
+          <i class="fas fa-external-link-alt"></i><span>View Site</span>
+        </button>
+        <button class="sidebar-link" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+
+      <!-- DASHBOARD -->
+      <div class="editor-section active" id="section-dashboard">
+        <div class="top-bar">
+          <h1>Dashboard</h1>
+          <div class="top-actions">
+            <a href="/" target="_blank" class="btn btn-ghost btn-sm"><i class="fas fa-external-link-alt"></i> View Site</a>
+            <button class="btn btn-success btn-sm" onclick="publishSite()"><i class="fas fa-rocket"></i> Publish</button>
+          </div>
+        </div>
+        <div class="card-grid" id="stats-grid"></div>
+        <div class="card" style="margin-top:20px;">
+          <div class="card-header">
+            <div class="card-title">Unsaved Draft vs Published</div>
+            <button class="btn btn-success btn-sm" onclick="publishSite()"><i class="fas fa-rocket"></i> Publish All Changes</button>
+          </div>
+          <p style="color:var(--text2);font-size:14px;">Click <strong>Publish</strong> to push all your draft changes to the live site. Your visitors will only see what's been published.</p>
+        </div>
+      </div>
+
+      <!-- SITE SETTINGS -->
+      <div class="editor-section" id="section-site">
+        <div class="top-bar">
+          <h1>Site Settings</h1>
+          <button class="btn btn-primary btn-sm" onclick="saveSiteSettings()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:20px;">General</div>
+          <div class="field-row">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-input" id="field-name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Title / Subtitle</label>
+              <input type="text" class="form-input" id="field-title">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tagline</label>
+            <input type="text" class="form-input" id="field-tagline">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-input" id="field-desc">
+          </div>
+          <div class="field-row">
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-input" id="field-email">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Footer Text</label>
+              <input type="text" class="form-input" id="field-footer">
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:20px;">Social Links</div>
+          <div class="field-row">
+            <div class="form-group">
+              <label class="form-label">LinkedIn</label>
+              <input type="url" class="form-input" id="field-linkedin" placeholder="https://linkedin.com/in/you">
+            </div>
+            <div class="form-group">
+              <label class="form-label">GitHub</label>
+              <input type="url" class="form-input" id="field-github" placeholder="https://github.com/you">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="form-group">
+              <label class="form-label">Facebook</label>
+              <input type="url" class="form-input" id="field-facebook" placeholder="https://facebook.com/you">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Twitter / X</label>
+              <input type="url" class="form-input" id="field-twitter" placeholder="https://x.com/you">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Instagram</label>
+            <input type="url" class="form-input" id="field-instagram" placeholder="https://instagram.com/you">
+          </div>
+        </div>
+      </div>
+
+      <!-- HOME PAGE -->
+      <div class="editor-section" id="section-home">
+        <div class="top-bar">
+          <h1>Home Page</h1>
+          <button class="btn btn-primary btn-sm" onclick="saveHomePage()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:20px;">Hero Section</div>
+          <div class="form-group">
+            <label class="form-label">Main Headline</label>
+            <input type="text" class="form-input" id="field-hero-text" placeholder="I build things that matter.">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subtitle</label>
+            <textarea class="form-input" id="field-hero-sub" rows="2" placeholder="Short description about yourself"></textarea>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:20px;">Featured Activities</div>
+          <p style="color:var(--text2);font-size:14px;margin-bottom:16px;">Select which activities appear on the home page.</p>
+          <div id="featured-checkboxes"></div>
+        </div>
+      </div>
+
+      <!-- ABOUT PAGE -->
+      <div class="editor-section" id="section-about">
+        <div class="top-bar">
+          <h1>About Page</h1>
+          <button class="btn btn-primary btn-sm" onclick="saveAboutPage()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:20px;">Intro</div>
+          <div class="form-group">
+            <label class="form-label">Introduction Paragraph</label>
+            <textarea class="form-input" id="field-about-intro" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Highlights</div>
+            <button class="btn btn-ghost btn-sm" onclick="addHighlight()"><i class="fas fa-plus"></i> Add</button>
+          </div>
+          <div id="highlights-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:20px;">Full Bio</div>
+          <div class="form-group">
+            <label class="form-label">Detailed Bio</label>
+            <textarea class="form-input" id="field-about-bio" rows="6"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITIES -->
+      <div class="editor-section" id="section-activities">
+        <div class="top-bar">
+          <h1>Activities</h1>
+          <div class="top-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveActivities()"><i class="fas fa-save"></i> Save All</button>
+            <button class="btn btn-ghost btn-sm" onclick="openActivityModal()"><i class="fas fa-plus"></i> New Activity</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="activity-list" id="activity-list"></div>
+        </div>
+      </div>
+
+      <!-- ACHIEVEMENTS -->
+      <div class="editor-section" id="section-achievements">
+        <div class="top-bar">
+          <h1>Achievement Database</h1>
+          <button class="btn btn-primary btn-sm" onclick="openAchModal()"><i class="fas fa-plus"></i> New Achievement</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">All Achievements</div>
+            <span style="font-size:13px;color:var(--muted);" id="ach-count"></span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="ach-table" id="ach-table">
+              <thead>
+                <tr>
+                  <th>Achievement</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th>Public</th>
+                  <th style="width:100px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ach-tbody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="ach-empty" style="display:none;">
+            <i class="fas fa-trophy"></i>
+            <p>No achievements yet. Add your first one!</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ACTIVITY MODAL -->
+  <div class="modal-overlay" id="activity-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="act-modal-title">New Activity</h2>
+        <button class="modal-close" onclick="closeModal('activity-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="act-edit-id">
+        <div class="field-row">
+          <div class="form-group">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-input" id="act-field-title" placeholder="e.g. MUN">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Icon (FontAwesome class)</label>
+            <input type="text" class="form-input" id="act-field-icon" placeholder="fa-globe">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="form-group">
+            <label class="form-label">Color</label>
+            <input type="color" class="form-input" id="act-field-color" value="#3b82f6" style="height:44px;padding:4px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Enabled</label>
+            <div style="padding-top:8px;">
+              <button class="toggle active" id="act-field-enabled" onclick="this.classList.toggle('active')"></button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-input" id="act-field-desc" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Achievements (one per line)</label>
+          <textarea class="form-input" id="act-field-achs" rows="4" placeholder="Best Delegate at Harvard MUN&#10;Started school's MUN program"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('activity-modal')">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveActivity()">Save Activity</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENT MODAL -->
+  <div class="modal-overlay" id="ach-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="ach-modal-title">New Achievement</h2>
+        <button class="modal-close" onclick="closeModal('ach-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="ach-edit-id">
+        <div class="form-group">
+          <label class="form-label">Achievement Title</label>
+          <input type="text" class="form-input" id="ach-field-title" placeholder="e.g. Best Delegate at Harvard MUN">
+        </div>
+        <div class="field-row">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-input" id="ach-field-date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <input type="text" class="form-input" id="ach-field-category" placeholder="e.g. MUN, Robotics, School, BSA">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-input" id="ach-field-desc" rows="3"></textarea>
+        </div>
+        <div class="field-row">
+          <div class="form-group">
+            <label class="form-label">My Role</label>
+            <input type="text" class="form-input" id="ach-field-role" placeholder="e.g. Delegate, Lead Programmer">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Result</label>
+            <input type="text" class="form-input" id="ach-field-result" placeholder="e.g. 1st Place, Award Winner">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Skills Learned (one per line)</label>
+          <textarea class="form-input" id="ach-field-skills" rows="3" placeholder="Public Speaking&#10;Research&#10;Leadership"></textarea>
+        </div>
+        <div class="field-row">
+          <div class="form-group">
+            <label class="form-label">Evidence URL (optional)</label>
+            <input type="url" class="form-input" id="ach-field-evidence-url" placeholder="https://...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Evidence Label</label>
+            <input type="text" class="form-input" id="ach-field-evidence-desc" placeholder="View Certificate">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Show on public site?</label>
+          <div style="padding-top:8px;">
+            <button class="toggle active" id="ach-field-public" onclick="this.classList.toggle('active')"></button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('ach-modal')">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveAchievement()">Save Achievement</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
+
+  <script src="/admin/js/admin.js"></script>
+</body>
+</html>
