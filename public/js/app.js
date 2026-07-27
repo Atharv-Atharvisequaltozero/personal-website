@@ -25,7 +25,7 @@ async function init() {
     data = await res.json();
   } catch {
     document.body.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Inter,sans-serif;background:#0a0a0b;color:#f5f5f7;flex-direction:column;gap:12px;">
+      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Inter,sans-serif;background:#0c0e14;color:#e8eaf0;flex-direction:column;gap:12px;">
         <h2 style="font-size:20px;font-weight:600;">Site not published yet</h2>
         <p style="color:#a1a1a6;font-size:14px;">Go to <a href="/admin" style="color:#3b82f6;">Admin</a> to publish.</p>
       </div>`;
