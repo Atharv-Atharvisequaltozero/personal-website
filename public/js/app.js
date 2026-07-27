@@ -25,10 +25,9 @@ async function init() {
     data = await res.json();
   } catch {
     document.body.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Inter,sans-serif;background:#0a0a0b;color:#f5f5f7;flex-direction:column;gap:16px;">
-        <i class="fas fa-building" style="font-size:48px;color:#6e6e73;"></i>
-        <h2 style="font-size:24px;font-weight:600;">Site Not Published Yet</h2>
-        <p style="color:#a1a1a6;">Go to <a href="/admin" style="color:#3b82f6;">Admin</a> to create and publish your site.</p>
+      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Inter,sans-serif;background:#0a0a0b;color:#f5f5f7;flex-direction:column;gap:12px;">
+        <h2 style="font-size:20px;font-weight:600;">Site not published yet</h2>
+        <p style="color:#a1a1a6;font-size:14px;">Go to <a href="/admin" style="color:#3b82f6;">Admin</a> to publish.</p>
       </div>`;
     return;
   }
@@ -100,13 +99,12 @@ function renderHome() {
     <h1 class="hero-text">${h.hero_text || ''}</h1>
     <p class="hero-sub">${h.hero_sub || ''}</p>
     ${featured.length ? `
-      <div class="section-label">Featured</div>
       <div class="featured-grid">
         ${featured.map(id => {
           const act = activities.find(a => a.id === id);
           if (!act) return '';
           return `
-            <div class="featured-card" onclick="navigate('activities')" style="cursor:pointer;">
+            <div class="featured-card" onclick="navigate('activities')">
               <div class="card-icon" style="background:${act.color}22;color:${act.color};">
                 <i class="fas ${act.icon}"></i>
               </div>
@@ -116,43 +114,33 @@ function renderHome() {
         }).join('')}
       </div>` : ''}
     ${(data.achievements || []).length ? `
-      <div style="margin-top:48px;">
-        <div class="section-label">Recent Achievements</div>
-        <div class="ach-grid">
-          ${data.achievements.slice(0, 3).map(renderAchievementEntry).join('')}
-        </div>
+      <div class="ach-grid">
+        ${data.achievements.slice(0, 3).map(renderAchievementEntry).join('')}
       </div>` : ''}`;
 }
 
 function renderAbout() {
   const a = getDraft().about || {};
   document.getElementById('page-about').innerHTML = `
-    <div class="section-label">About</div>
-    <h2 class="section-title">A bit about me</h2>
+    <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:24px;">About</h2>
     <p class="about-intro">${a.intro || ''}</p>
     ${a.highlights && a.highlights.length ? `
-      <div class="highlights-grid">
-        ${a.highlights.map(h => `
-          <div class="highlight-item">
-            <i class="fas fa-check"></i><span>${h}</span>
-          </div>`).join('')}
-      </div>` : ''}
+      <ul class="highlights-list">
+        ${a.highlights.map(h => `<li>${h}</li>`).join('')}
+      </ul>` : ''}
     ${a.bio ? `<div class="about-bio">${a.bio}</div>` : ''}`;
 }
 
 function renderActivities() {
   const activities = (getDraft().activities || []).filter(a => a.enabled);
   if (!activities.length) {
-    document.getElementById('page-activities').innerHTML = `
-      <div class="section-label">Activities</div>
-      <h2 class="section-title">What I do</h2>
-      <div class="empty-state"><i class="fas fa-folder-open"></i><p>No activities published yet.</p></div>`;
+    document.getElementById('page-activities').innerHTML =
+      '<p style="color:var(--muted);padding:40px 0;">No activities published yet.</p>';
     return;
   }
 
   document.getElementById('page-activities').innerHTML = `
-    <div class="section-label">Activities</div>
-    <h2 class="section-title">What I do</h2>
+    <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:24px;">Activities</h2>
     <div class="activity-tabs">
       ${activities.map((a, i) => `
         <button class="activity-tab${i === 0 ? ' active' : ''}" data-activity="${a.id}" onclick="switchActivity('${a.id}')">
@@ -162,7 +150,7 @@ function renderActivities() {
     ${activities.map((a, i) => `
       <div class="activity-content${i === 0 ? ' active' : ''}" id="activity-${a.id}">
         <div class="activity-card">
-          <h3 style="color:${a.color}">${a.title}</h3>
+          <h3>${a.title}</h3>
           <p>${a.description}</p>
           ${a.achievements && a.achievements.length ? `
             <ul class="ach-list">
@@ -206,8 +194,7 @@ function renderAchievements() {
   const categories = [...new Set(achievements.map(a => a.category))];
 
   document.getElementById('page-achievements').innerHTML = `
-    <div class="section-label">Achievements</div>
-    <h2 class="section-title">What I've accomplished</h2>
+    <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:24px;">Achievements</h2>
     ${categories.length ? `
       <div class="ach-filters">
         <button class="filter-btn active" onclick="filterAchievements('all')">All</button>
@@ -215,7 +202,7 @@ function renderAchievements() {
       </div>` : ''}
     <div class="ach-grid" id="ach-grid">
       ${achievements.length ? achievements.map(renderAchievementEntry).join('') :
-        '<div class="empty-state"><i class="fas fa-trophy"></i><p>No achievements published yet.</p></div>'}
+        '<p style="color:var(--muted);padding:40px 0;">No achievements published yet.</p>'}
     </div>`;
 }
 
@@ -227,7 +214,7 @@ function filterAchievements(cat) {
   const achievements = (data.achievements || []).filter(a => cat === 'all' || a.category === cat);
   document.getElementById('ach-grid').innerHTML = achievements.length
     ? achievements.map(renderAchievementEntry).join('')
-    : '<div class="empty-state"><i class="fas fa-trophy"></i><p>No achievements in this category.</p></div>';
+    : '<p style="color:var(--muted);padding:40px 0;">No achievements in this category.</p>';
 }
 
 function renderAchievementEntry(ach) {
