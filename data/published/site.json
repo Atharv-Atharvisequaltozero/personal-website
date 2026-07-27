@@ -1,0 +1,115 @@
+{
+  "site": {
+    "name": "Atharv Bagotra",
+    "title": "Student & Leader",
+    "tagline": "Driven by curiosity, fueled by impact.",
+    "description": "High school student passionate about leadership, STEM, and community service.",
+    "email": "atharv@example.com",
+    "footer": "© 2025 Atharv Bagotra. All rights reserved."
+  },
+  "social": {
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "facebook": "",
+    "twitter": "",
+    "github": "",
+    "instagram": ""
+  },
+  "home": {
+    "hero_text": "I build things that matter.",
+    "hero_sub": "Student leader, STEM enthusiast, and community organizer. From leading fundraising committees to competing at world-level competitions, I turn ideas into impact.",
+    "featured": [
+      "council",
+      "stem",
+      "scouts"
+    ]
+  },
+  "about": {
+    "intro": "I'm a high school student who thrives at the intersection of leadership, innovation, and service. Whether it's organizing a recreational soccer league, competing at Odyssey of the Mind Worlds, or raising $1,000 for charity, I believe in taking initiative and making things happen.",
+    "highlights": [
+      "Vice President, Curtner Student Council Fundraising Committee",
+      "Odyssey of the Mind World Finalist (2023 & 2024)",
+      "VEX Robotics State Finalist",
+      "President, Curtner Origami Club",
+      "Boy Scouts of America - Troop 92, Milpitas"
+    ],
+    "bio": "Growing up in Milpitas, I've always been drawn to leadership roles and hands-on problem solving. From founding my school's Origami Club to organizing recreational sports leagues and competing in international STEM competitions, I've learned that the best way to create change is to take action. Every experience has taught me something new about teamwork, resilience, and the power of community."
+  },
+  "activities": [
+    {
+      "id": "council",
+      "title": "Student Council",
+      "icon": "fa-users",
+      "color": "#3b82f6",
+      "enabled": true,
+      "description": "As a member and Vice President of the Fundraising Committee at Curtner, I helped plan events, manage budgets, and rally student participation to fund school-wide initiatives.",
+      "achievements": [
+        "Member, Curtner Student Council (2023-24)",
+        "Vice President, Fundraising Committee (2023-24)",
+        "Planned and executed multiple school fundraising events",
+        "President, Curtner Origami Club - grew membership to 10-15 active members",
+        "Student SMB owner at Entrepreneur Fair (2023-24)"
+      ],
+      "images": [],
+      "videos": []
+    },
+    {
+      "id": "stem",
+      "title": "STEM & Innovation",
+      "icon": "fa-lightbulb",
+      "color": "#10b981",
+      "enabled": true,
+      "description": "Competing in VEX Robotics and Odyssey of the Mind has pushed me to think creatively under pressure, collaborate with diverse teams, and solve complex problems at the highest level.",
+      "achievements": [
+        "Odyssey of the Mind World Finalist - Michigan (2023) & Iowa (2024)",
+        "VEX Robotics State Finalist (2024)",
+        "Head of Marketing, Summer Bizworld Entrepreneurs Club (2022)"
+      ],
+      "images": [],
+      "videos": []
+    },
+    {
+      "id": "scouts",
+      "title": "Boy Scouts",
+      "icon": "fa-shield-halved",
+      "color": "#f59e0b",
+      "enabled": true,
+      "description": "As a member of BSA Troop 92 in Milpitas, I'm developing leadership, outdoor survival skills, and a commitment to service that extends beyond the classroom.",
+      "achievements": [
+        "Member, BSA Troop 92, Milpitas",
+        "Tenderfoot Rank achieved (2024)",
+        "Developing outdoor and leadership skills through merit badge work"
+      ],
+      "images": [],
+      "videos": []
+    },
+    {
+      "id": "sports",
+      "title": "Sports",
+      "icon": "fa-futbol",
+      "color": "#8b5cf6",
+      "enabled": true,
+      "description": "As a defense player in competitive soccer and organizer of a recreational league, I've experienced sports from both sides - competing at a high level and building community through play.",
+      "achievements": [
+        "Defense Player, Competitive Soccer League, Milpitas (2022-24)",
+        "Organizer, Recreational Soccer League at Curtner (2024)",
+        "Balanced competitive athletics with leadership in community sports"
+      ],
+      "images": [],
+      "videos": []
+    },
+    {
+      "id": "community",
+      "title": "Community Service",
+      "icon": "fa-heart",
+      "color": "#ec4899",
+      "enabled": true,
+      "description": "Giving back is core to who I am. From organizing fundraisers to supporting family-driven charitable causes, I'm committed to making a positive impact in my community.",
+      "achievements": [
+        "Fundraiser, Family Giving Tree Wish Drive (2020) - raised $1,000",
+        "Supported community giving through hands-on event organization"
+      ],
+      "images": [],
+      "videos": []
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+[
+  {
+    "id": "ach_001",
+    "achievement": "Odyssey of the Mind World Finalist",
+    "date": "2024-05-01",
+    "category": "STEM",
+    "description": "Qualified as a World Finalist at the Odyssey of the Mind World Championships in Iowa. Previously competed at the 2023 World Finals in Michigan.",
+    "role": "Team Member / Problem Solver",
+    "result": "World Finalist (2023 & 2024)",
+    "skills": [
+      "Creative Problem Solving",
+      "Teamwork",
+      "Time Management",
+      "Public Performance"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_002",
+    "achievement": "VEX Robotics State Finalist",
+    "date": "2024-03-01",
+    "category": "STEM",
+    "description": "Competed at the VEX Robotics State Championships, qualifying from regional competitions to represent our team at the state level.",
+    "role": "Team Member",
+    "result": "State Finalist",
+    "skills": [
+      "Robotics",
+      "Engineering",
+      "Programming",
+      "Strategic Thinking"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_003",
+    "achievement": "Vice President, Curtner Student Council Fundraising",
+    "date": "2024-06-01",
+    "category": "Leadership",
+    "description": "Served as Vice President of the Fundraising Committee for Curtner Student Council, planning and executing school-wide fundraising events and managing budgets.",
+    "role": "Vice President, Fundraising Committee",
+    "result": "Successfully organized multiple fundraising events",
+    "skills": [
+      "Leadership",
+      "Event Planning",
+      "Budget Management",
+      "Team Coordination"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_004",
+    "achievement": "President, Curtner Origami Club",
+    "date": "2024-06-01",
+    "category": "Leadership",
+    "description": "Founded and served as President of the Curtner Origami Club, growing membership to 10-15 active members and organizing regular club meetings and activities.",
+    "role": "President & Founder",
+    "result": "Grew club to 10-15 active members",
+    "skills": [
+      "Club Management",
+      "Teaching",
+      "Organization",
+      "Public Speaking"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_005",
+    "achievement": "Organizer, Recreational Soccer League",
+    "date": "2024-01-01",
+    "category": "Community",
+    "description": "Organized a recreational soccer league at Curtner, bringing together students for organized play and building a sense of community through sports.",
+    "role": "Organizer & League Director",
+    "result": "Established an active recreational soccer league",
+    "skills": [
+      "Event Organization",
+      "Sports Management",
+      "Community Building",
+      "Leadership"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_006",
+    "achievement": "Boy Scouts of America - Tenderfoot Rank",
+    "date": "2024-06-01",
+    "category": "Scouts",
+    "description": "Active member of BSA Troop 92 in Milpitas, achieving Tenderfoot Rank and developing outdoor survival, leadership, and community service skills.",
+    "role": "Scout, Troop 92",
+    "result": "Tenderfoot Rank",
+    "skills": [
+      "Outdoor Skills",
+      "Leadership",
+      "Service",
+      "Self-Discipline"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_007",
+    "achievement": "Head of Marketing, Bizworld Entrepreneurs",
+    "date": "2022-08-01",
+    "category": "Business",
+    "description": "Served as Head of Marketing for the Summer Bizworld Entrepreneurs Middle School Club, developing marketing strategies and promoting the club's initiatives.",
+    "role": "Head of Marketing",
+    "result": "Led marketing efforts for the club",
+    "skills": [
+      "Marketing",
+      "Communication",
+      "Digital Strategy",
+      "Team Leadership"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_008",
+    "achievement": "Student SMB Owner at Entrepreneur Fair",
+    "date": "2024-03-01",
+    "category": "Business",
+    "description": "Created and ran a student small business at the Curtner Entrepreneur Fair, gaining hands-on experience in business planning, pricing, and customer interaction.",
+    "role": "Business Owner",
+    "result": "Successfully ran a student business at the fair",
+    "skills": [
+      "Entrepreneurship",
+      "Financial Literacy",
+      "Customer Service",
+      "Marketing"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_009",
+    "achievement": "Competitive Soccer - Defense Player",
+    "date": "2024-06-01",
+    "category": "Sports",
+    "description": "Defense player for the Competitive Soccer League in Milpitas from 2022-2024, developing tactical awareness, discipline, and teamwork on the field.",
+    "role": "Defense Player",
+    "result": "2+ years of competitive play",
+    "skills": [
+      "Athletics",
+      "Teamwork",
+      "Tactical Thinking",
+      "Discipline"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_010",
+    "achievement": "Family Giving Tree Wish Drive Fundraiser",
+    "date": "2020-12-01",
+    "category": "Community",
+    "description": "Organized fundraising efforts for the Family Giving Tree Wish Drive, raising $1,000 to support families in need during the holiday season.",
+    "role": "Fundraiser",
+    "result": "$1,000 raised",
+    "skills": [
+      "Fundraising",
+      "Charity",
+      "Community Engagement",
+      "Event Organization"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  }
+]
