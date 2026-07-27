@@ -398,11 +398,16 @@ function toast(msg, type = 'success') {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-function selectTheme(theme) {
+async function selectTheme(theme) {
   selectedTheme = theme;
   document.querySelectorAll('.theme-pick').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.theme === theme);
   });
+  if (draft && draft.site) {
+    draft.site.theme = theme;
+    await saveDraft();
+    toast('Theme saved — click Publish to apply');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', checkAuth);

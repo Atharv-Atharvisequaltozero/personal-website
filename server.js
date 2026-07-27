@@ -12,18 +12,10 @@ const DATA_DIR = path.join(__dirname, 'data');
 const DRAFT_DIR = path.join(DATA_DIR, 'draft');
 const PUB_DIR = path.join(DATA_DIR, 'published');
 const UPLOAD_DIR = path.join(__dirname, 'public', 'uploads');
-const TOKENS_FILE = path.join(DATA_DIR, 'tokens.json');
 
 const ADMIN_USER = 'admin';
 const ADMIN_PASS_HASH = bcrypt.hashSync('atharv2025', 10);
-
-function readTokens() {
-  try { return JSON.parse(fs.readFileSync(TOKENS_FILE, 'utf8')); }
-  catch { return {}; }
-}
-function writeTokens(t) {
-  fs.writeFileSync(TOKENS_FILE, JSON.stringify(t, null, 2));
-}
+const AUTH_SECRET = process.env.AUTH_SECRET || 'atharv-personal-site-secret-2026';
 
 app.set('trust proxy', 1);
 app.use(express.json({ limit: '10mb' }));
@@ -47,6 +39,23 @@ function writeJSON(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
+function signToken(payload) {
+  const data = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const sig = crypto.createHmac('sha256', AUTH_SECRET).update(data).digest('base64url');
+  return data + '.' + sig;
+}
+
+function verifyToken(token) {
+  try {
+    const [data, sig] = token.split('.');
+    const expected = crypto.createHmac('sha256', AUTH_SECRET).update(data).digest('base64url');
+    if (sig !== expected) return null;
+    const payload = JSON.parse(Buffer.from(data, 'base64url').toString());
+    if (payload.exp && Date.now() > payload.exp) return null;
+    return payload;
+  } catch { return null; }
+}
+
 function ensureDirs() {
   [DRAFT_DIR, PUB_DIR, UPLOAD_DIR].forEach(dir => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -63,7 +72,6 @@ function ensureDirs() {
     });
   }
   if (!fs.existsSync(draftAch)) writeJSON(draftAch, []);
-  if (!fs.existsSync(TOKENS_FILE)) writeTokens({});
 }
 
 function getToken(req) {
@@ -73,10 +81,8 @@ function getToken(req) {
 
 function authRequired(req, res, next) {
   const token = getToken(req);
-  if (!token) return res.status(401).json({ error: 'Unauthorized' });
-  const tokens = readTokens();
-  if (tokens[token]) return next();
-  res.status(401).json({ error: 'Unauthorized' });
+  if (!token || !verifyToken(token)) return res.status(401).json({ error: 'Unauthorized' });
+  next();
 }
 
 ensureDirs();
@@ -87,10 +93,7 @@ app.use('/admin', express.static(path.join(__dirname, 'admin')));
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
   if (username === ADMIN_USER && bcrypt.compareSync(password, ADMIN_PASS_HASH)) {
-    const token = crypto.randomBytes(32).toString('hex');
-    const tokens = readTokens();
-    tokens[token] = { created: Date.now() };
-    writeTokens(tokens);
+    const token = signToken({ admin: true, exp: Date.now() + 30 * 24 * 60 * 60 * 1000 });
     res.setHeader('Set-Cookie', `admin_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`);
     return res.json({ success: true });
   }
@@ -98,21 +101,13 @@ app.post('/api/login', (req, res) => {
 });
 
 app.post('/api/logout', (req, res) => {
-  const token = getToken(req);
-  if (token) {
-    const tokens = readTokens();
-    delete tokens[token];
-    writeTokens(tokens);
-  }
   res.setHeader('Set-Cookie', 'admin_token=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0');
   res.json({ success: true });
 });
 
 app.get('/api/auth/check', (req, res) => {
   const token = getToken(req);
-  if (!token) return res.json({ admin: false });
-  const tokens = readTokens();
-  res.json({ admin: !!tokens[token] });
+  res.json({ admin: !!(token && verifyToken(token)) });
 });
 
 app.get('/api/draft', authRequired, (req, res) => {
