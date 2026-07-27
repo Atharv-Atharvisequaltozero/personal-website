@@ -270,6 +270,18 @@ textarea.form-input { min-height: 80px; resize: vertical; line-height: 1.6; }
 }
 .empty-state i { margin-bottom: 8px; font-size: 20px; display: block; }
 
+/* SITE EDITOR */
+.editor-editable:focus {
+  background: rgba(59,130,246,0.05);
+  border-radius: 2px;
+}
+
+.editor-editable:empty::before {
+  content: 'Click to edit...';
+  color: var(--muted);
+  font-style: italic;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .sidebar { width: 100%; height: auto; position: relative; flex-direction: row; overflow-x: auto; padding: 0; }

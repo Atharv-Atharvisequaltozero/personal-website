@@ -584,4 +584,180 @@ async function selectTheme(theme) {
   }
 }
 
+let editorPage = 'home';
+let editorMedia = [];
+
+function switchEditorPage(page, btn) {
+  editorPage = page;
+  document.querySelectorAll('#section-editor .filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderEditorCanvas();
+}
+
+function renderEditorCanvas() {
+  const canvas = document.getElementById('editor-canvas');
+  if (!canvas) return;
+  const s = draft.site || {};
+  const h = draft.home || {};
+  const a = draft.about || {};
+  const now = draft.now || [];
+  const acts = draft.activities || [];
+  const achs = achievements || [];
+
+  switch (editorPage) {
+    case 'home':
+      canvas.innerHTML = `
+        <div style="margin-bottom:32px;">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;">Hero</div>
+          <div contenteditable="true" data-field="home.hero_text" class="editor-editable" style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:8px;outline:none;border-bottom:1px dashed transparent;padding:4px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${h.hero_text || ''}</div>
+          <div contenteditable="true" data-field="home.hero_sub" class="editor-editable" style="font-size:14px;color:var(--text2);line-height:1.7;outline:none;border-bottom:1px dashed transparent;padding:4px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${h.hero_sub || ''}</div>
+        </div>
+        <div style="margin-bottom:24px;">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:12px;">Site Info</div>
+          <div class="field-row" style="gap:12px;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Name</div>
+              <div contenteditable="true" data-field="site.name" class="editor-editable" style="font-size:14px;font-weight:500;outline:none;border-bottom:1px dashed transparent;padding:2px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${s.name || ''}</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Tagline</div>
+              <div contenteditable="true" data-field="site.tagline" class="editor-editable" style="font-size:14px;color:var(--text2);outline:none;border-bottom:1px dashed transparent;padding:2px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${s.tagline || ''}</div>
+            </div>
+          </div>
+        </div>
+        ${editorMedia.length ? renderEditorMedia() : ''}`;
+      break;
+    case 'about':
+      canvas.innerHTML = `
+        <div style="margin-bottom:24px;">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;">Introduction</div>
+          <div contenteditable="true" data-field="about.intro" class="editor-editable" style="font-size:15px;color:var(--text2);line-height:1.8;outline:none;border-bottom:1px dashed transparent;padding:4px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${a.intro || ''}</div>
+        </div>
+        ${a.highlights && a.highlights.length ? `
+        <div style="margin-bottom:24px;">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;">Highlights</div>
+          ${a.highlights.map((h, i) => `<div contenteditable="true" data-field="about.highlights.${i}" class="editor-editable" style="font-size:14px;color:var(--text2);padding:8px 0;border-bottom:1px solid var(--border);outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='var(--border)'">${h}</div>`).join('')}
+        </div>` : ''}
+        <div style="margin-bottom:24px;">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;">Bio</div>
+          <div contenteditable="true" data-field="about.bio" class="editor-editable" style="font-size:14px;color:var(--text2);line-height:1.8;outline:none;border-bottom:1px dashed transparent;padding:4px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${a.bio || ''}</div>
+        </div>
+        ${editorMedia.length ? renderEditorMedia() : ''}`;
+      break;
+    case 'activities':
+      canvas.innerHTML = acts.length ? acts.map(act => `
+        <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <div style="width:24px;height:24px;border-radius:4px;background:${act.color}22;color:${act.color};display:flex;align-items:center;justify-content:center;font-size:11px;"><i class="fas ${act.icon}"></i></div>
+            <div contenteditable="true" data-field="activity.${act.id}.title" class="editor-editable" style="font-size:16px;font-weight:600;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${act.title}</div>
+          </div>
+          <div contenteditable="true" data-field="activity.${act.id}.description" class="editor-editable" style="font-size:14px;color:var(--text2);line-height:1.7;outline:none;border-bottom:1px dashed transparent;padding:4px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${act.description || ''}</div>
+          ${act.images && act.images.length ? `
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-top:12px;">
+            ${act.images.map(img => `<img src="${img.src}" style="width:100%;height:80px;object-fit:cover;border-radius:4px;border:1px solid var(--border);">`).join('')}
+          </div>` : ''}
+        </div>`).join('') : '<p style="color:var(--muted);">No activities yet.</p>';
+      break;
+    case 'now':
+      canvas.innerHTML = now.length ? `
+        <div style="margin-bottom:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);">Now</div>
+        ${now.map((item, i) => `
+        <div style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <div style="color:var(--accent);font-size:13px;flex-shrink:0;"><i class="fas ${item.icon}"></i></div>
+          <div contenteditable="true" data-field="now.${i}.title" class="editor-editable" style="font-size:14px;font-weight:500;outline:none;min-width:60px;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${item.title}</div>
+          <span style="color:var(--muted);">—</span>
+          <div contenteditable="true" data-field="now.${i}.description" class="editor-editable" style="font-size:14px;color:var(--text2);outline:none;flex:1;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${item.description}</div>
+        </div>`).join('')}` : '<p style="color:var(--muted);">No items in Now section.</p>';
+      break;
+    case 'achievements':
+      canvas.innerHTML = achs.length ? achs.map(ach => `
+        <div style="padding:12px 0;border-bottom:1px solid var(--border);">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+            <div contenteditable="true" data-field="achievement.${ach.id}.achievement" class="editor-editable" style="font-size:15px;font-weight:600;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${ach.achievement}</div>
+            <span style="font-size:12px;color:var(--accent);white-space:nowrap;">${ach.category || ''}</span>
+          </div>
+          <div contenteditable="true" data-field="achievement.${ach.id}.description" class="editor-editable" style="font-size:13px;color:var(--text2);margin-top:4px;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${ach.description || ''}</div>
+          ${ach.photos && ach.photos.length ? `
+          <div style="display:flex;gap:6px;margin-top:8px;overflow-x:auto;">
+            ${ach.photos.map(p => `<img src="${p.src}" style="height:60px;border-radius:4px;border:1px solid var(--border);">`).join('')}
+          </div>` : ''}
+        </div>`).join('') : '<p style="color:var(--muted);">No achievements yet.</p>';
+      break;
+  }
+}
+
+function updateEditorField(el) {
+  const field = el.dataset.field;
+  const val = el.innerText.trim();
+  if (!field) return;
+  const parts = field.split('.');
+  if (parts[0] === 'home') { if (!draft.home) draft.home = {}; draft.home[parts[1]] = val; }
+  else if (parts[0] === 'site') { if (!draft.site) draft.site = {}; draft.site[parts[1]] = val; }
+  else if (parts[0] === 'about') {
+    if (parts[1] === 'highlights') { draft.about.highlights[parseInt(parts[2])] = val; }
+    else { if (!draft.about) draft.about = {}; draft.about[parts[1]] = val; }
+  }
+  else if (parts[0] === 'now') { draft.now[parseInt(parts[1])][parts[2]] = val; }
+  else if (parts[0] === 'activity') {
+    const act = (draft.activities || []).find(a => a.id === parts[1]);
+    if (act) act[parts[2]] = val;
+  }
+  else if (parts[0] === 'achievement') {
+    const ach = achievements.find(a => a.id === parts[1]);
+    if (ach) ach[parts[2]] = val;
+  }
+  toast('Changed (draft)');
+}
+
+function renderEditorMedia() {
+  return `<div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border);">
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;">Added Media</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;">
+      ${editorMedia.map((m, i) => {
+        if (m.type === 'image') return `<div style="position:relative;"><img src="${m.url}" style="width:100%;height:80px;object-fit:cover;border-radius:4px;border:1px solid var(--border);"><button onclick="editorRemoveMedia(${i})" style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,0.7);color:#fff;border:none;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;">x</button></div>`;
+        if (m.type === 'video') return `<div style="position:relative;"><iframe src="${m.url}" style="width:100%;aspect-ratio:16/9;border:none;border-radius:4px;" allowfullscreen></iframe><button onclick="editorRemoveMedia(${i})" style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,0.7);color:#fff;border:none;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;">x</button></div>`;
+        return '';
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+function editorRemoveMedia(idx) { editorMedia.splice(idx, 1); renderEditorCanvas(); }
+
+async function editorAddImage() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async () => {
+    if (!input.files.length) return;
+    const url = await uploadPhoto(input.files[0]);
+    if (url) { editorMedia.push({ type: 'image', url }); renderEditorCanvas(); toast('Image added (draft)'); }
+  };
+  input.click();
+}
+
+function editorAddVideo() {
+  const url = prompt('Paste YouTube URL:');
+  if (!url) return;
+  let embed = url;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?/]+)/);
+  if (match) embed = 'https://www.youtube.com/embed/' + match[1];
+  editorMedia.push({ type: 'video', url: embed });
+  renderEditorCanvas();
+  toast('Video added (draft)');
+}
+
+function editorAddText() {
+  if (!draft.home) draft.home = {};
+  if (!draft.home.custom_blocks) draft.home.custom_blocks = [];
+  draft.home.custom_blocks.push({ text: 'New text block — click to edit' });
+  renderEditorCanvas();
+  toast('Text block added (draft)');
+}
+
+async function editorSave() {
+  await saveDraft();
+  toast('Saved to draft — click Publish to make live');
+}
+
 document.addEventListener('DOMContentLoaded', checkAuth);

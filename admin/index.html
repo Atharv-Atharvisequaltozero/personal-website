@@ -63,6 +63,10 @@
         <button class="sidebar-link" data-section="achievements" onclick="showSection('achievements')">
           <i class="fas fa-trophy"></i><span>Achievements</span>
         </button>
+        <div class="sidebar-divider"></div>
+        <button class="sidebar-link" data-section="editor" onclick="showSection('editor')">
+          <i class="fas fa-eye"></i><span>Site Editor</span>
+        </button>
       </nav>
       <div class="sidebar-bottom">
         <button class="sidebar-link" onclick="window.open('/', '_blank')">
@@ -116,7 +120,10 @@
       <div class="editor-section" id="section-site">
         <div class="top-bar">
           <h1>Site Settings</h1>
-          <button class="btn btn-primary btn-sm" onclick="saveSiteSettings()"><i class="fas fa-save"></i> Save</button>
+          <div class="top-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveSiteSettings()"><i class="fas fa-save"></i> Save</button>
+            <button class="btn btn-success btn-sm" onclick="saveSiteSettings().then(()=>publishSite())"><i class="fas fa-rocket"></i> Publish</button>
+          </div>
         </div>
         <div class="card">
           <div class="card-title" style="margin-bottom:20px;">General</div>
@@ -203,7 +210,10 @@
       <div class="editor-section" id="section-home">
         <div class="top-bar">
           <h1>Home Page</h1>
-          <button class="btn btn-primary btn-sm" onclick="saveHomePage()"><i class="fas fa-save"></i> Save</button>
+          <div class="top-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveHomePage()"><i class="fas fa-save"></i> Save</button>
+            <button class="btn btn-success btn-sm" onclick="saveHomePage().then(()=>publishSite())"><i class="fas fa-rocket"></i> Publish</button>
+          </div>
         </div>
         <div class="card">
           <div class="card-title" style="margin-bottom:20px;">Hero Section</div>
@@ -227,7 +237,10 @@
       <div class="editor-section" id="section-about">
         <div class="top-bar">
           <h1>About Page</h1>
-          <button class="btn btn-primary btn-sm" onclick="saveAboutPage()"><i class="fas fa-save"></i> Save</button>
+          <div class="top-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveAboutPage()"><i class="fas fa-save"></i> Save</button>
+            <button class="btn btn-success btn-sm" onclick="saveAboutPage().then(()=>publishSite())"><i class="fas fa-rocket"></i> Publish</button>
+          </div>
         </div>
         <div class="card">
           <div class="card-title" style="margin-bottom:20px;">Intro</div>
@@ -259,6 +272,7 @@
           <div class="top-actions">
             <button class="btn btn-primary btn-sm" onclick="saveNow()"><i class="fas fa-save"></i> Save</button>
             <button class="btn btn-ghost btn-sm" onclick="openNowModal()"><i class="fas fa-plus"></i> Add Item</button>
+            <button class="btn btn-success btn-sm" onclick="saveNow().then(()=>publishSite())"><i class="fas fa-rocket"></i> Publish</button>
           </div>
         </div>
         <div class="card">
@@ -310,6 +324,44 @@
           <div class="empty-state" id="ach-empty" style="display:none;">
             <i class="fas fa-trophy"></i>
             <p>No achievements yet. Add your first one!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SITE EDITOR -->
+      <div class="editor-section" id="section-editor">
+        <div class="top-bar">
+          <h1>Site Editor</h1>
+          <div class="top-actions">
+            <button class="btn btn-success btn-sm" onclick="publishSite()"><i class="fas fa-rocket"></i> Publish All</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:24px;min-height:calc(100vh - 140px);">
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;gap:4px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+              <button class="filter-btn active" onclick="switchEditorPage('home', this)">Home</button>
+              <button class="filter-btn" onclick="switchEditorPage('about', this)">About</button>
+              <button class="filter-btn" onclick="switchEditorPage('activities', this)">Activities</button>
+              <button class="filter-btn" onclick="switchEditorPage('now', this)">Now</button>
+              <button class="filter-btn" onclick="switchEditorPage('achievements', this)">Achievements</button>
+            </div>
+            <div id="editor-canvas" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius,8px);padding:32px;min-height:500px;"></div>
+          </div>
+          <div style="width:220px;flex-shrink:0;">
+            <div style="position:sticky;top:32px;">
+              <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">Tools</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <button class="btn btn-ghost btn-sm" onclick="editorAddImage()" style="justify-content:flex-start;"><i class="fas fa-image" style="width:18px;"></i> Add Image</button>
+                <button class="btn btn-ghost btn-sm" onclick="editorAddVideo()" style="justify-content:flex-start;"><i class="fab fa-youtube" style="width:18px;"></i> Add YouTube</button>
+                <button class="btn btn-ghost btn-sm" onclick="editorAddText()" style="justify-content:flex-start;"><i class="fas fa-paragraph" style="width:18px;"></i> Add Text Block</button>
+                <div style="height:1px;background:var(--border);margin:8px 0;"></div>
+                <button class="btn btn-ghost btn-sm" onclick="editorSave()" style="justify-content:flex-start;"><i class="fas fa-save" style="width:18px;"></i> Save Draft</button>
+                <button class="btn btn-success btn-sm" onclick="publishSite()" style="justify-content:flex-start;"><i class="fas fa-rocket" style="width:18px;"></i> Publish</button>
+              </div>
+              <div style="margin-top:24px;font-size:12px;color:var(--muted);line-height:1.6;">
+                Click any text to edit it inline. Use the tools to add media. Save when done, then Publish to make changes live.
+              </div>
+            </div>
           </div>
         </div>
       </div>
