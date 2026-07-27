@@ -8,10 +8,10 @@ const categoryColors = {
 };
 
 async function checkAuth() {
-  const res = await fetch('/api/auth/check');
-  const data = await res.json();
-  if (data.admin) { showAdmin(); loadDraft(); }
-  else { showLogin(); }
+    const res = await fetch('/api/auth/check', { credentials: 'include' });
+    const data = await res.json();
+    if (data.admin) { showAdmin(); loadDraft(); }
+    else { showLogin(); }
 }
 
 function showLogin() {
@@ -28,22 +28,23 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const user = document.getElementById('login-user').value;
   const pass = document.getElementById('login-pass').value;
-  const res = await fetch('/api/login', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: user, password: pass })
-  });
+    const res = await fetch('/api/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ username: user, password: pass })
+    });
   if (res.ok) { showAdmin(); loadDraft(); }
   else { document.getElementById('login-error').style.display = 'block'; }
 });
 
 function logout() {
-  fetch('/api/logout', { method: 'POST' });
+  fetch('/api/logout', { method: 'POST', credentials: 'include' });
   showLogin();
 }
 
 async function loadDraft() {
   try {
-    const res = await fetch('/api/draft');
+    const res = await fetch('/api/draft', { credentials: 'include' });
     const data = await res.json();
     draft = data.site || {};
     achievements = data.achievements || [];
@@ -349,10 +350,12 @@ async function saveDraft() {
   try {
     await fetch('/api/draft/site', {
       method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify(draft)
     });
     await fetch('/api/draft/achievements', {
       method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify(achievements)
     });
     toast('Saved to draft');
@@ -362,7 +365,7 @@ async function saveDraft() {
 async function publishSite() {
   try {
     await saveDraft();
-    const res = await fetch('/api/publish', { method: 'POST' });
+    const res = await fetch('/api/publish', { method: 'POST', credentials: 'include' });
     if (res.ok) toast('Site published!', 'success');
     else toast('Publish failed', 'error');
   } catch (err) { toast('Publish error', 'error'); }

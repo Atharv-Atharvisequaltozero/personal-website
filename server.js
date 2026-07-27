@@ -16,13 +16,14 @@ const UPLOAD_DIR = path.join(__dirname, 'public', 'uploads');
 const ADMIN_USER = 'admin';
 const ADMIN_PASS_HASH = bcrypt.hashSync('atharv2025', 10);
 
+app.set('trust proxy', 1);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'persona-website-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 }
+  cookie: { secure: true, maxAge: 24 * 60 * 60 * 1000 }
 }));
 
 const storage = multer.diskStorage({
