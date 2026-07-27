@@ -33,6 +33,7 @@ async function init() {
   }
 
   renderNav();
+  document.body.setAttribute('data-theme', (getSettings().theme || 'dark'));
   renderPage('home');
   renderFooter();
 }

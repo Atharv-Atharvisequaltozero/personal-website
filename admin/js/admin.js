@@ -1,5 +1,6 @@
 let draft = null;
 let achievements = [];
+let selectedTheme = 'dark';
 
 const categoryColors = {
   'Student Council': '#3b82f6', 'STEM': '#10b981', 'Scouts': '#f59e0b',
@@ -77,6 +78,11 @@ function populateAll() {
 
   document.getElementById('field-about-intro').value = a.intro || '';
   document.getElementById('field-about-bio').value = a.bio || '';
+
+  selectedTheme = s.theme || 'dark';
+  document.querySelectorAll('.theme-pick').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === selectedTheme);
+  });
 
   renderFeaturedCheckboxes();
   renderHighlights();
@@ -318,7 +324,8 @@ async function saveSiteSettings() {
     tagline: document.getElementById('field-tagline').value,
     description: document.getElementById('field-desc').value,
     email: document.getElementById('field-email').value,
-    footer: document.getElementById('field-footer').value
+    footer: document.getElementById('field-footer').value,
+    theme: selectedTheme
   };
   draft.social = {
     linkedin: document.getElementById('field-linkedin').value,
@@ -389,6 +396,13 @@ function toast(msg, type = 'success') {
   document.getElementById('toast-msg').textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function selectTheme(theme) {
+  selectedTheme = theme;
+  document.querySelectorAll('.theme-pick').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === theme);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', checkAuth);

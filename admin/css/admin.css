@@ -225,6 +225,11 @@ textarea.form-input { min-height: 80px; resize: vertical; line-height: 1.6; }
 .toast.error { border-left: 2px solid var(--danger); }
 .toast.error i { color: var(--danger); }
 
+/* THEME PICKER */
+.theme-pick { transition: border-color var(--tr) !important; }
+.theme-pick:hover { border-color: var(--muted) !important; }
+.theme-pick.active { border-color: var(--accent) !important; }
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .sidebar { width: 100%; height: auto; position: relative; flex-direction: row; overflow-x: auto; padding: 0; }
