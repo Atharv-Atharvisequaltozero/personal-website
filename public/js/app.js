@@ -138,10 +138,6 @@ function renderHome() {
             </div>`;
         }).join('')}
       </div>` : ''}
-    ${(data.achievements || []).length ? `
-      <div class="ach-grid">
-        ${data.achievements.slice(0, 3).map(renderAchievementEntry).join('')}
-      </div>` : ''}
     ${renderFaqSection()}`;
   
   if (phrases.length) startTypewriter(phrases);
