@@ -908,6 +908,11 @@ async function saveFaq() {
   await saveDraft();
 }
 
+async function saveAchievements() {
+  await saveDraft();
+  toast('Achievements saved (draft)');
+}
+
 function renderContactSettings() {
   const contact = draft.contact || {};
   document.getElementById('field-formspree-id').value = contact.formspree_id || '';

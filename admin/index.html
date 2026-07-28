@@ -314,7 +314,11 @@
       <div class="editor-section" id="section-achievements">
         <div class="top-bar">
           <h1>Achievement Database</h1>
-          <button class="btn btn-primary btn-sm" onclick="openAchModal()"><i class="fas fa-plus"></i> New Achievement</button>
+          <div class="top-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveAchievements()"><i class="fas fa-save"></i> Save</button>
+            <button class="btn btn-ghost btn-sm" onclick="openAchModal()"><i class="fas fa-plus"></i> New Achievement</button>
+            <button class="btn btn-success btn-sm" onclick="saveAchievements().then(()=>publishSite())"><i class="fas fa-rocket"></i> Publish</button>
+          </div>
         </div>
         <div class="card">
           <div class="card-header">
