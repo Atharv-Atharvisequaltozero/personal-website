@@ -229,7 +229,7 @@ function renderAchievements() {
         ${categories.map(c => `<button class="filter-btn" onclick="filterAchievements('${c}')">${c}</button>`).join('')}
       </div>` : ''}
     <div class="ach-grid" id="ach-grid">
-      ${achievements.length ? achievements.map(renderAchievementEntry).join('') :
+      ${achievements.length ? achievements.map((a, i) => renderAchievementEntry(a, i)).join('') :
         '<p style="color:var(--muted);padding:40px 0;">No achievements published yet.</p>'}
     </div>`;
 }
@@ -241,42 +241,49 @@ function filterAchievements(cat) {
   });
   const achievements = (data.achievements || []).filter(a => cat === 'all' || a.category === cat);
   document.getElementById('ach-grid').innerHTML = achievements.length
-    ? achievements.map(renderAchievementEntry).join('')
+    ? achievements.map((a, i) => renderAchievementEntry(a, i)).join('')
     : '<p style="color:var(--muted);padding:40px 0;">No achievements in this category.</p>';
 }
 
-function renderAchievementEntry(ach) {
+function renderAchievementEntry(ach, idx) {
   const color = categoryColors[ach.category] || categoryColors.default;
   const dateStr = ach.date ? new Date(ach.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+  const hasMedia = ach.photos && ach.photos.length;
+  const side = (idx || 0) % 2 === 0 ? 'left' : 'right';
+
+  const mediaHtml = hasMedia
+    ? `<img src="${ach.photos[0].src}" alt="${ach.achievement}" loading="lazy">`
+    : `<div class="ach-placeholder"><i class="fas fa-image"></i></div>`;
 
   return `
     <div class="ach-entry">
-      <div class="ach-header">
-        <div>
-          <div class="ach-title">${ach.achievement}</div>
-          <span class="ach-category" style="background:${color}22;color:${color};">${ach.category}</span>
+      <div class="ach-row ${side === 'right' ? 'ach-reverse' : ''}">
+        <div class="ach-media">${mediaHtml}</div>
+        <div class="ach-text">
+          <div class="ach-header">
+            <div>
+              <div class="ach-title">${ach.achievement}</div>
+              <span class="ach-category" style="background:${color}22;color:${color};">${ach.category}</span>
+            </div>
+            ${dateStr ? `<span class="ach-date">${dateStr}</span>` : ''}
+          </div>
+          <p class="ach-desc">${ach.description || ''}</p>
+          <div class="ach-details">
+            ${ach.role ? `<div><div class="ach-detail-label">Role</div><div class="ach-detail-value">${ach.role}</div></div>` : ''}
+            ${ach.result ? `<div><div class="ach-detail-label">Result</div><div class="ach-detail-value">${ach.result}</div></div>` : ''}
+          </div>
+          ${ach.skills && ach.skills.length ? `
+            <div class="ach-skills">
+              ${ach.skills.map(s => `<span class="ach-skill">${s}</span>`).join('')}
+            </div>` : ''}
+          ${ach.evidence && ach.evidence.url ? `
+            <div class="ach-evidence">
+              <a href="${ach.evidence.url}" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt"></i> ${ach.evidence.description || 'View Evidence'}
+              </a>
+            </div>` : ''}
         </div>
-        ${dateStr ? `<span class="ach-date">${dateStr}</span>` : ''}
       </div>
-      <p class="ach-desc">${ach.description || ''}</p>
-      <div class="ach-details">
-        ${ach.role ? `<div><div class="ach-detail-label">Role</div><div class="ach-detail-value">${ach.role}</div></div>` : ''}
-        ${ach.result ? `<div><div class="ach-detail-label">Result</div><div class="ach-detail-value">${ach.result}</div></div>` : ''}
-      </div>
-      ${ach.skills && ach.skills.length ? `
-        <div class="ach-skills">
-          ${ach.skills.map(s => `<span class="ach-skill">${s}</span>`).join('')}
-        </div>` : ''}
-      ${ach.evidence && ach.evidence.url ? `
-        <div class="ach-evidence">
-          <a href="${ach.evidence.url}" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-external-link-alt"></i> ${ach.evidence.description || 'View Evidence'}
-          </a>
-        </div>` : ''}
-      ${ach.photos && ach.photos.length ? `
-        <div class="activity-photo-grid">
-          ${ach.photos.map(p => `<div class="activity-photo-item"><img src="${p.src}" alt="${p.alt || ''}" loading="lazy"></div>`).join('')}
-        </div>` : ''}
     </div>`;
 }
 
