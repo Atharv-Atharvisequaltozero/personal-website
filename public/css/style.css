@@ -439,6 +439,36 @@ footer {
   align-items: center; justify-content: center;
 }
 
+/* TYPEWRITER */
+.typewriter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 20px;
+  font-size: 15px;
+  color: var(--text2);
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+.typewriter-prefix {
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 6px;
+}
+.typewriter-text {
+  color: var(--accent);
+  font-weight: 500;
+}
+.typewriter-cursor {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 300;
+  animation: blink 0.8s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
 /* FAQ */
 .faq-section { margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border); }
 .faq-heading { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 24px; }

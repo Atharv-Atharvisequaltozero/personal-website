@@ -66,7 +66,7 @@ function ensureDirs() {
     writeJSON(draftSite, {
       site: { name: "Your Name", title: "Your Title", tagline: "Your tagline", description: "Description", email: "email@example.com", footer: "© 2026 Your Name", theme: "midnight" },
       social: { linkedin: "", facebook: "", twitter: "", github: "", instagram: "" },
-      home: { hero_text: "Your hero text", hero_sub: "Your sub text", featured: [] },
+      home: { hero_text: "Your hero text", hero_sub: "Your sub text", hero_phrases: ["Your first phrase", "Your second phrase", "Your third phrase"], featured: [] },
       about: { intro: "Your intro", highlights: [], bio: "Your bio" },
       now: [
         { icon: "fa-robot", title: "Robotics", description: "Building and competing with my robotics team." },

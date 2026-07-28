@@ -176,6 +176,7 @@ function populateAll() {
 
   renderFeaturedCheckboxes();
   renderHighlights();
+  renderHeroPhrases();
   renderNowList();
   renderActivityList();
   renderAchievements();
@@ -220,6 +221,25 @@ function renderHighlights() {
       <button class="icon-btn danger" onclick="removeHighlight(${i})"><i class="fas fa-trash"></i></button>
     </div>`).join('');
 }
+
+function renderHeroPhrases() {
+  const phrases = (draft.home || {}).hero_phrases || [];
+  document.getElementById('hero-phrases-list').innerHTML = phrases.length ? phrases.map((p, i) => `
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <input type="text" class="form-input" value="${escapeHtml(p)}" onchange="updateHeroPhrase(${i}, this.value)" style="flex:1;">
+      <button class="icon-btn danger" onclick="removeHeroPhrase(${i})"><i class="fas fa-trash"></i></button>
+    </div>`).join('') : '<p style="color:var(--muted);font-size:13px;">No phrases yet. Add what you want to rotate in the hero.</p>';
+}
+
+function addHeroPhrase() {
+  if (!draft.home) draft.home = {};
+  if (!draft.home.hero_phrases) draft.home.hero_phrases = [];
+  draft.home.hero_phrases.push('');
+  renderHeroPhrases();
+}
+
+function updateHeroPhrase(i, val) { draft.home.hero_phrases[i] = val; }
+function removeHeroPhrase(i) { draft.home.hero_phrases.splice(i, 1); renderHeroPhrases(); }
 
 function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -616,6 +636,11 @@ function renderEditorCanvas() {
           <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;">Hero</div>
           <div contenteditable="true" data-field="home.hero_text" class="editor-editable" style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:8px;outline:none;border-bottom:1px dashed transparent;padding:4px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${h.hero_text || ''}</div>
           <div contenteditable="true" data-field="home.hero_sub" class="editor-editable" style="font-size:14px;color:var(--text2);line-height:1.7;outline:none;border-bottom:1px dashed transparent;padding:4px 0;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='transparent'">${h.hero_sub || ''}</div>
+          ${(h.hero_phrases || []).length ? `
+          <div style="margin-top:16px;">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;">Typewriter Phrases</div>
+            ${h.hero_phrases.map((p, i) => `<div contenteditable="true" data-field="home.hero_phrases.${i}" class="editor-editable" style="font-size:13px;color:var(--accent);padding:6px 0;border-bottom:1px solid var(--border);outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this);this.style.borderColor='var(--border)'">${p}</div>`).join('')}
+          </div>` : ''}
         </div>
         <div style="margin-bottom:24px;">
           <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:12px;">Site Info</div>
@@ -703,7 +728,11 @@ function updateEditorField(el) {
   const val = el.innerText.trim();
   if (!field) return;
   const parts = field.split('.');
-  if (parts[0] === 'home') { if (!draft.home) draft.home = {}; draft.home[parts[1]] = val; }
+  if (parts[0] === 'home') {
+    if (!draft.home) draft.home = {};
+    if (parts[1] === 'hero_phrases') { draft.home.hero_phrases[parseInt(parts[2])] = val; }
+    else { draft.home[parts[1]] = val; }
+  }
   else if (parts[0] === 'site') { if (!draft.site) draft.site = {}; draft.site[parts[1]] = val; }
   else if (parts[0] === 'about') {
     if (parts[1] === 'highlights') { draft.about.highlights[parseInt(parts[2])] = val; }

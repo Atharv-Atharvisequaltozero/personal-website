@@ -98,10 +98,17 @@ function renderHome() {
   const activities = (d.activities || []).filter(a => a.enabled);
   const featured = (h.featured || []).filter(id => activities.find(a => a.id === id));
   const now = d.now || [];
+  const phrases = h.hero_phrases || [];
 
   document.getElementById('page-home').innerHTML = `
     <h1 class="hero-text">${h.hero_text || ''}</h1>
     <p class="hero-sub">${h.hero_sub || ''}</p>
+    ${phrases.length ? `
+      <div class="typewriter-wrap">
+        <span class="typewriter-prefix">Currently: </span>
+        <span class="typewriter-text" id="typewriter"></span>
+        <span class="typewriter-cursor">|</span>
+      </div>` : ''}
     ${now.length ? `
       <div class="now-section">
         <div class="now-heading">Now</div>
@@ -133,6 +140,8 @@ function renderHome() {
         ${data.achievements.slice(0, 3).map(renderAchievementEntry).join('')}
       </div>` : ''}
     ${renderFaqSection()}`;
+  
+  if (phrases.length) startTypewriter(phrases);
 }
 
 function renderAbout() {
@@ -345,3 +354,40 @@ function renderFooter() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+let typewriterInterval = null;
+function startTypewriter(phrases) {
+  if (!phrases.length) return;
+  const el = document.getElementById('typewriter');
+  if (!el) return;
+  let phraseIdx = 0;
+  let charIdx = 0;
+  let isDeleting = false;
+  let isPaused = false;
+
+  function tick() {
+    if (isPaused) return;
+    const current = phrases[phraseIdx];
+    if (!isDeleting) {
+      el.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+      if (charIdx === current.length) {
+        isPaused = true;
+        setTimeout(() => { isPaused = false; isDeleting = true; tick(); }, 2000);
+        return;
+      }
+      setTimeout(tick, 60 + Math.random() * 40);
+    } else {
+      el.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+      if (charIdx === 0) {
+        isDeleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        setTimeout(tick, 400);
+        return;
+      }
+      setTimeout(tick, 30);
+    }
+  }
+  tick();
+}
