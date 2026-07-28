@@ -16,8 +16,16 @@
     "instagram": ""
   },
   "home": {
-    "hero_text": "I build things that matter.",
-    "hero_sub": "Student leader, STEM enthusiast, and community organizer. From leading fundraising committees to competing at world-level competitions, I turn ideas into impact.",
+    "hero_text": "Leading teams. Solving problems. Competing globally.",
+    "hero_sub": "Student leader, STEM enthusiast, and community organizer.\n\nFrom fundraising committees to world-level competitions — I turn ideas into impact.",
+    "hero_phrases": [
+      "Odyssey of the Mind World Finalist",
+      "VEX Robotics State Finalist",
+      "Boy Scouts Troop 92 — Milpitas",
+      "VP, Student Council Fundraising",
+      "Open to internships & collaborations",
+      "Organizer. Builder. Leader."
+    ],
     "featured": [
       "council",
       "stem",
@@ -36,10 +44,26 @@
     "bio": "Growing up in Milpitas, I've always been drawn to leadership roles and hands-on problem solving. From founding my school's Origami Club to organizing recreational sports leagues and competing in international STEM competitions, I've learned that the best way to create change is to take action. Every experience has taught me something new about teamwork, resilience, and the power of community."
   },
   "now": [
-    { "icon": "fa-robot", "title": "Robotics", "description": "Building and competing with my robotics team." },
-    { "icon": "fa-globe", "title": "MUN", "description": "Exploring international policy and AI governance." },
-    { "icon": "fa-brain", "title": "Learning", "description": "Developing my skills in AI, Python, and engineering." },
-    { "icon": "fa-rocket", "title": "Next", "description": "Exploring the intersection of AI, robotics, and public policy." }
+    {
+      "icon": "fa-robot",
+      "title": "Robotics",
+      "description": "Building and competing with my robotics team."
+    },
+    {
+      "icon": "fa-globe",
+      "title": "MUN",
+      "description": "Exploring international policy and AI governance."
+    },
+    {
+      "icon": "fa-brain",
+      "title": "Learning",
+      "description": "Developing my skills in AI, Python, and engineering."
+    },
+    {
+      "icon": "fa-rocket",
+      "title": "Next",
+      "description": "Exploring the intersection of AI, robotics, and public policy."
+    }
   ],
   "activities": [
     {
@@ -118,5 +142,31 @@
       "images": [],
       "videos": []
     }
-  ]
+  ],
+  "faq": [
+    {
+      "question": "Who is Atharv Bagotra?",
+      "answer": "Atharv Bagotra is a high school student based in Milpitas, California, passionate about leadership, STEM, and community service."
+    },
+    {
+      "question": "What competitions has Atharv participated in?",
+      "answer": "Atharv is an Odyssey of the Mind World Finalist (2023 & 2024) and a VEX Robotics State Finalist (2024)."
+    },
+    {
+      "question": "What roles has Atharv held?",
+      "answer": "Atharv served as Vice President of the Fundraising Committee at Curtner Student Council and is President of the Origami Club."
+    },
+    {
+      "question": "What is Atharv involved in outside of school?",
+      "answer": "Atharv is a member of Boy Scouts of America Troop 92 in Milpitas, working toward his Tenderfoot rank, and competes in competitive soccer."
+    },
+    {
+      "question": "How can I contact Atharv?",
+      "answer": "You can reach Atharv through the contact form below or via the social media links in the footer."
+    }
+  ],
+  "contact": {
+    "formspree_id": "",
+    "note": "Create a free form at formspree.io and paste your form ID above to enable the contact form."
+  }
 }
