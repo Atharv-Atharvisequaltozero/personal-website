@@ -57,6 +57,7 @@ function renderNav() {
         <li><a href="#" data-page="about" onclick="navigate('about');return false;">About</a></li>
         <li><a href="#" data-page="activities" onclick="navigate('activities');return false;">Activities</a></li>
         <li><a href="#" data-page="achievements" onclick="navigate('achievements');return false;">Achievements</a></li>
+        <li><a href="#" data-page="contact" onclick="navigate('contact');return false;">Contact</a></li>
       </ul>
       <div class="nav-right">
         <div class="nav-social">${navSocialHtml}</div>
@@ -80,6 +81,7 @@ function renderPage(page) {
     case 'about': renderAbout(); break;
     case 'activities': renderActivities(); break;
     case 'achievements': renderAchievements(); break;
+    case 'contact': renderContact(); break;
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -129,7 +131,8 @@ function renderHome() {
     ${(data.achievements || []).length ? `
       <div class="ach-grid">
         ${data.achievements.slice(0, 3).map(renderAchievementEntry).join('')}
-      </div>` : ''}`;
+      </div>` : ''}
+    ${renderFaqSection()}`;
 }
 
 function renderAbout() {
@@ -263,6 +266,67 @@ function renderAchievementEntry(ach) {
           ${ach.photos.map(p => `<div class="activity-photo-item"><img src="${p.src}" alt="${p.alt || ''}" loading="lazy"></div>`).join('')}
         </div>` : ''}
     </div>`;
+}
+
+function renderFaqSection() {
+  const faq = getDraft().faq || [];
+  if (!faq.length) return '';
+  return `
+    <div class="faq-section">
+      <h2 class="faq-heading">FAQ</h2>
+      <div class="faq-list">
+        ${faq.map((item, i) => `
+          <div class="faq-item" id="faq-${i}">
+            <button class="faq-question" onclick="toggleFaq(${i})">
+              <span>${item.question}</span>
+              <span class="faq-arrow">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>${item.answer}</p>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function toggleFaq(i) {
+  const el = document.getElementById('faq-' + i);
+  el.classList.toggle('open');
+}
+
+function renderContact() {
+  const d = getDraft();
+  const contact = d.contact || {};
+  const social = Object.entries(getSocial()).filter(([_, url]) => url && url.trim());
+  const formspreeId = contact.formspree_id;
+
+  document.getElementById('page-contact').innerHTML = `
+    <h2 class="section-heading">Contact</h2>
+    <div class="contact-links">
+      ${social.map(([p, url]) => `
+        <a href="${url}" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <i class="fab ${socialIcons[p]}"></i> ${p.charAt(0).toUpperCase() + p.slice(1)}
+        </a>`).join('')}
+      ${(d.site || {}).email ? `
+        <a href="mailto:${d.site.email}" class="contact-link">
+          <i class="fas fa-envelope"></i> Email
+        </a>` : ''}
+    </div>
+    ${formspreeId ? `
+      <form class="contact-form" action="https://formspree.io/f/${formspreeId}" method="POST">
+        <label for="contact-name">Name</label>
+        <input type="text" id="contact-name" name="name" required placeholder="Your name">
+        <label for="contact-email">Email</label>
+        <input type="email" id="contact-email" name="email" required placeholder="your@email.com">
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" name="message" required placeholder="What's on your mind?" rows="5"></textarea>
+        <button type="submit">Send</button>
+        <p id="form-status" style="display:none;"></p>
+      </form>` : `
+      <p style="color:var(--muted);font-size:14px;text-align:center;padding:40px 0;">
+        Contact form not configured yet. Add your Formspree ID in the admin panel.
+      </p>`}
+  `;
 }
 
 function renderFooter() {

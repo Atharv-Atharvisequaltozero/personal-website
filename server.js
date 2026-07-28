@@ -74,7 +74,13 @@ function ensureDirs() {
         { icon: "fa-brain", title: "Learning", description: "Developing my skills in AI, Python, and engineering." },
         { icon: "fa-rocket", title: "Next", description: "Exploring the intersection of AI, robotics, and public policy." }
       ],
-      activities: []
+      activities: [],
+      faq: [
+        { question: "Who are you?", answer: "Tell visitors about yourself." },
+        { question: "What do you do?", answer: "Describe your work or studies." },
+        { question: "How can I reach you?", answer: "Use the contact form below!" }
+      ],
+      contact: { formspree_id: "", note: "Create a free form at formspree.io and paste your form ID here." }
     });
   }
   if (!fs.existsSync(draftAch)) writeJSON(draftAch, []);

@@ -1,6 +1,7 @@
 let draft = null;
 let achievements = [];
 let nowItems = [];
+let faqItems = [];
 let selectedTheme = 'midnight';
 let authToken = localStorage.getItem('admin_token') || '';
 
@@ -137,6 +138,7 @@ async function loadDraft() {
   draft = data.site || {};
   achievements = data.achievements || [];
   nowItems = draft.now || [];
+  faqItems = draft.faq || [];
   populateAll();
   } catch (err) { console.error('Load error:', err); }
 }
@@ -177,6 +179,8 @@ function populateAll() {
   renderNowList();
   renderActivityList();
   renderAchievements();
+  renderFaqList();
+  renderContactSettings();
   renderStats();
 }
 
@@ -603,6 +607,7 @@ function renderEditorCanvas() {
   const now = draft.now || [];
   const acts = draft.activities || [];
   const achs = achievements || [];
+  const faq = draft.faq || [];
 
   switch (editorPage) {
     case 'home':
@@ -683,6 +688,13 @@ function renderEditorCanvas() {
           </div>` : ''}
         </div>`).join('') : '<p style="color:var(--muted);">No achievements yet.</p>';
       break;
+    case 'faq':
+      canvas.innerHTML = faq.length ? faq.map((item, i) => `
+        <div style="padding:12px 0;border-bottom:1px solid var(--border);">
+          <div contenteditable="true" data-field="faq.${i}.question" class="editor-editable" style="font-size:15px;font-weight:600;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${item.question}</div>
+          <div contenteditable="true" data-field="faq.${i}.answer" class="editor-editable" style="font-size:13px;color:var(--text2);margin-top:4px;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${item.answer}</div>
+        </div>`).join('') : '<p style="color:var(--muted);">No FAQ items yet.</p>';
+      break;
   }
 }
 
@@ -705,6 +717,9 @@ function updateEditorField(el) {
   else if (parts[0] === 'achievement') {
     const ach = achievements.find(a => a.id === parts[1]);
     if (ach) ach[parts[2]] = val;
+  }
+  else if (parts[0] === 'faq') {
+    if (faqItems[parseInt(parts[1])]) faqItems[parseInt(parts[1])][parts[2]] = val;
   }
   toast('Changed (draft)');
 }
@@ -758,6 +773,87 @@ function editorAddText() {
 async function editorSave() {
   await saveDraft();
   toast('Saved to draft — click Publish to make live');
+}
+
+function renderFaqList() {
+  if (!faqItems.length) {
+    document.getElementById('faq-list').innerHTML =
+      '<div class="empty-state"><i class="fas fa-question-circle"></i><p>No FAQ items yet. Add your first question!</p></div>';
+    return;
+  }
+  document.getElementById('faq-list').innerHTML = faqItems.map((item, i) => `
+    <div class="activity-item">
+      <div class="activity-info">
+        <div class="activity-icon" style="background:var(--accent);22;color:var(--accent);"><i class="fas fa-question"></i></div>
+        <div>
+          <div class="activity-name">${escapeHtml(item.question)}</div>
+          <div class="activity-desc">${escapeHtml(item.answer).substring(0, 80)}${item.answer.length > 80 ? '...' : ''}</div>
+        </div>
+      </div>
+      <div class="activity-actions">
+        <button class="icon-btn" onclick="editFaqItem(${i})" title="Edit"><i class="fas fa-pen"></i></button>
+        <button class="icon-btn danger" onclick="deleteFaqItem(${i})" title="Delete"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`).join('');
+}
+
+function openFaqModal() {
+  document.getElementById('faq-edit-idx').value = '';
+  document.getElementById('faq-field-question').value = '';
+  document.getElementById('faq-field-answer').value = '';
+  document.getElementById('faq-modal-title').textContent = 'Add Question';
+  openModal('faq-modal');
+}
+
+function editFaqItem(idx) {
+  const item = faqItems[idx];
+  if (!item) return;
+  document.getElementById('faq-edit-idx').value = idx;
+  document.getElementById('faq-field-question').value = item.question || '';
+  document.getElementById('faq-field-answer').value = item.answer || '';
+  document.getElementById('faq-modal-title').textContent = 'Edit Question';
+  openModal('faq-modal');
+}
+
+function saveFaqItem() {
+  const idx = document.getElementById('faq-edit-idx').value;
+  const item = {
+    question: document.getElementById('faq-field-question').value,
+    answer: document.getElementById('faq-field-answer').value
+  };
+  if (idx !== '') { faqItems[parseInt(idx)] = item; }
+  else { faqItems.push(item); }
+  draft.faq = faqItems;
+  closeModal('faq-modal');
+  renderFaqList();
+  toast('FAQ item saved (draft)');
+}
+
+function deleteFaqItem(idx) {
+  if (!confirm('Delete this FAQ item?')) return;
+  faqItems.splice(idx, 1);
+  draft.faq = faqItems;
+  renderFaqList();
+  toast('FAQ item deleted (draft)');
+}
+
+async function saveFaq() {
+  draft.faq = faqItems;
+  await saveDraft();
+}
+
+function renderContactSettings() {
+  const contact = draft.contact || {};
+  document.getElementById('field-formspree-id').value = contact.formspree_id || '';
+  document.getElementById('field-contact-note').value = contact.note || '';
+}
+
+async function saveContact() {
+  draft.contact = {
+    formspree_id: document.getElementById('field-formspree-id').value,
+    note: document.getElementById('field-contact-note').value
+  };
+  await saveDraft();
 }
 
 document.addEventListener('DOMContentLoaded', checkAuth);

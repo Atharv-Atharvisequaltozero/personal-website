@@ -114,5 +114,16 @@
       "images": [],
       "videos": []
     }
-  ]
+  ],
+  "faq": [
+    { "question": "Who is Atharv Bagotra?", "answer": "Atharv Bagotra is a high school student based in Milpitas, California, passionate about leadership, STEM, and community service." },
+    { "question": "What competitions has Atharv participated in?", "answer": "Atharv is an Odyssey of the Mind World Finalist (2023 & 2024) and a VEX Robotics State Finalist (2024)." },
+    { "question": "What roles has Atharv held?", "answer": "Atharv served as Vice President of the Fundraising Committee at Curtner Student Council and is President of the Origami Club." },
+    { "question": "What is Atharv involved in outside of school?", "answer": "Atharv is a member of Boy Scouts of America Troop 92 in Milpitas, working toward his Tenderfoot rank, and competes in competitive soccer." },
+    { "question": "How can I contact Atharv?", "answer": "You can reach Atharv through the contact form below or via the social media links in the footer." }
+  ],
+  "contact": {
+    "formspree_id": "",
+    "note": "Create a free form at formspree.io and paste your form ID above to enable the contact form."
+  }
 }

@@ -63,6 +63,12 @@
         <button class="sidebar-link" data-section="achievements" onclick="showSection('achievements')">
           <i class="fas fa-trophy"></i><span>Achievements</span>
         </button>
+        <button class="sidebar-link" data-section="faq" onclick="showSection('faq')">
+          <i class="fas fa-question-circle"></i><span>FAQ</span>
+        </button>
+        <button class="sidebar-link" data-section="contact" onclick="showSection('contact')">
+          <i class="fas fa-envelope"></i><span>Contact</span>
+        </button>
         <div class="sidebar-divider"></div>
         <button class="sidebar-link" data-section="editor" onclick="showSection('editor')">
           <i class="fas fa-eye"></i><span>Site Editor</span>
@@ -328,6 +334,46 @@
         </div>
       </div>
 
+      <!-- FAQ -->
+      <div class="editor-section" id="section-faq">
+        <div class="top-bar">
+          <h1>FAQ</h1>
+          <div class="top-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveFaq()"><i class="fas fa-save"></i> Save</button>
+            <button class="btn btn-ghost btn-sm" onclick="openFaqModal()"><i class="fas fa-plus"></i> Add Question</button>
+            <button class="btn btn-success btn-sm" onclick="saveFaq().then(()=>publishSite())"><i class="fas fa-rocket"></i> Publish</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:8px;">Frequently Asked Questions</div>
+          <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">Add questions visitors commonly ask. They'll appear as an expandable accordion on your site.</p>
+          <div class="activity-list" id="faq-list"></div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="editor-section" id="section-contact">
+        <div class="top-bar">
+          <h1>Contact</h1>
+          <div class="top-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveContact()"><i class="fas fa-save"></i> Save</button>
+            <button class="btn btn-success btn-sm" onclick="saveContact().then(()=>publishSite())"><i class="fas fa-rocket"></i> Publish</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:8px;">Contact Form</div>
+          <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">Use <a href="https://formspree.io" target="_blank" style="color:var(--accent);">Formspree</a> (free) to receive messages. Create a form, then paste your Form ID below.</p>
+          <div class="form-group">
+            <label class="form-label">Formspree Form ID</label>
+            <input type="text" class="form-input" id="field-formspree-id" placeholder="e.g. xrgvkjyb">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Note for visitors (optional)</label>
+            <textarea class="form-input" id="field-contact-note" rows="2" placeholder="Optional message shown with the form"></textarea>
+          </div>
+        </div>
+      </div>
+
       <!-- SITE EDITOR -->
       <div class="editor-section" id="section-editor">
         <div class="top-bar">
@@ -344,6 +390,7 @@
               <button class="filter-btn" onclick="switchEditorPage('activities', this)">Activities</button>
               <button class="filter-btn" onclick="switchEditorPage('now', this)">Now</button>
               <button class="filter-btn" onclick="switchEditorPage('achievements', this)">Achievements</button>
+              <button class="filter-btn" onclick="switchEditorPage('faq', this)">FAQ</button>
             </div>
             <div id="editor-canvas" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius,8px);padding:32px;min-height:500px;"></div>
           </div>
@@ -525,6 +572,31 @@
       <div class="modal-footer">
         <button class="btn btn-ghost btn-sm" onclick="closeModal('now-modal')">Cancel</button>
         <button class="btn btn-primary btn-sm" onclick="saveNowItem()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ MODAL -->
+  <div class="modal-overlay" id="faq-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="faq-modal-title">Add Question</h2>
+        <button class="modal-close" onclick="closeModal('faq-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="faq-edit-idx" value="">
+        <div class="form-group">
+          <label class="form-label">Question</label>
+          <input type="text" class="form-input" id="faq-field-question" placeholder="e.g. Who is Atharv?">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Answer</label>
+          <textarea class="form-input" id="faq-field-answer" rows="4" placeholder="The answer to the question..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('faq-modal')">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveFaqItem()">Save</button>
       </div>
     </div>
   </div>
