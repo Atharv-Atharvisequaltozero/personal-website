@@ -33,7 +33,9 @@ async function init() {
   }
 
   renderNav();
-  document.body.setAttribute('data-theme', (getSettings().theme || 'midnight'));
+  const savedTheme = localStorage.getItem('site_theme');
+  const theme = (getSettings().theme || savedTheme || 'midnight');
+  document.body.setAttribute('data-theme', theme);
   renderPage('home');
   renderFooter();
 }

@@ -103,6 +103,8 @@ function showLogin() {
 function showAdmin() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('admin-panel').style.display = 'flex';
+  const savedTheme = localStorage.getItem('site_theme') || 'midnight';
+  document.body.setAttribute('data-theme', savedTheme);
 }
 
 document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -169,7 +171,8 @@ function populateAll() {
   document.getElementById('field-about-intro').value = a.intro || '';
   document.getElementById('field-about-bio').value = a.bio || '';
 
-  selectedTheme = s.theme || 'dark';
+  selectedTheme = (draft.site || {}).theme || localStorage.getItem('site_theme') || 'midnight';
+  document.body.setAttribute('data-theme', selectedTheme);
   document.querySelectorAll('.theme-pick').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.theme === selectedTheme);
   });
@@ -601,6 +604,8 @@ async function selectTheme(theme) {
   document.querySelectorAll('.theme-pick').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.theme === theme);
   });
+  localStorage.setItem('site_theme', theme);
+  document.body.setAttribute('data-theme', theme);
   if (draft && draft.site) {
     draft.site.theme = theme;
     await saveDraft();

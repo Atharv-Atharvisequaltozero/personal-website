@@ -8,6 +8,19 @@
   --tr: 0.2s ease;
 }
 
+[data-theme="chill"] {
+  --bg: #1a1714; --surface: #211e1a; --border: #2e2a24;
+  --text: #f0ece4; --text2: #a89f90; --muted: #706858;
+  --accent: #e0a050; --accent2: #c48a3a;
+}
+
+[data-theme="light"] {
+  --bg: #f8f8f8; --surface: #ffffff; --border: #d4d4d4;
+  --text: #111111; --text2: #444444; --muted: #888888;
+  --accent: #1a56db; --accent2: #1648b8;
+  --success: #16a34a; --danger: #dc2626;
+}
+
 body {
   font-family: 'Inter', -apple-system, sans-serif;
   background: var(--bg); color: var(--text); line-height: 1.6;
