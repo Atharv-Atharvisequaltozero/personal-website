@@ -35,7 +35,7 @@ async function init() {
 
   renderNav();
   const savedTheme = localStorage.getItem('site_theme');
-  const theme = (getSettings().theme || savedTheme || 'midnight');
+  const theme = (getSettings().theme || savedTheme || 'light');
   document.body.setAttribute('data-theme', theme);
   renderPage('home');
   renderFooter();

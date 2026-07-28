@@ -283,6 +283,30 @@ textarea.form-input { min-height: 80px; resize: vertical; line-height: 1.6; }
 }
 .empty-state i { margin-bottom: 8px; font-size: 20px; display: block; }
 
+/* ADMIN ACHIEVEMENT CARDS */
+.ach-admin-card {
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.ach-admin-card:first-child { padding-top: 0; }
+.ach-admin-card:last-child { border-bottom: none; }
+
+.ach-admin-row {
+  display: flex; gap: 24px; align-items: center;
+}
+
+.ach-admin-media {
+  width: 200px; min-height: 150px; flex-shrink: 0;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden; aspect-ratio: 4/3;
+}
+
+.ach-admin-text { flex: 1; min-width: 0; }
+
+@media (max-width: 768px) {
+  .ach-admin-row { flex-direction: column !important; }
+  .ach-admin-media { width: 100%; aspect-ratio: 16/9; }
+}
+
 /* SITE EDITOR */
 .editor-editable:focus {
   background: rgba(59,130,246,0.05);

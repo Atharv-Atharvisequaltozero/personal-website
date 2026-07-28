@@ -2,7 +2,7 @@ let draft = null;
 let achievements = [];
 let nowItems = [];
 let faqItems = [];
-let selectedTheme = 'midnight';
+let selectedTheme = 'light';
 let authToken = localStorage.getItem('admin_token') || '';
 
 const categoryColors = {
@@ -104,7 +104,7 @@ function showLogin() {
 function showAdmin() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('admin-panel').style.display = 'flex';
-  const savedTheme = localStorage.getItem('site_theme') || 'midnight';
+  const savedTheme = localStorage.getItem('site_theme') || 'light';
   document.body.setAttribute('data-theme', savedTheme);
 }
 
@@ -172,7 +172,7 @@ function populateAll() {
   document.getElementById('field-about-intro').value = a.intro || '';
   document.getElementById('field-about-bio').value = a.bio || '';
 
-  selectedTheme = (draft.site || {}).theme || localStorage.getItem('site_theme') || 'midnight';
+  selectedTheme = (draft.site || {}).theme || localStorage.getItem('site_theme') || 'light';
   document.body.setAttribute('data-theme', selectedTheme);
   document.querySelectorAll('.theme-pick').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.theme === selectedTheme);
@@ -423,25 +423,45 @@ function deleteActivity(id) {
 }
 
 function renderAchievements() {
-  const tbody = document.getElementById('ach-tbody');
+  const container = document.getElementById('ach-list');
   const empty = document.getElementById('ach-empty');
   const count = document.getElementById('ach-count');
   count.textContent = `${achievements.length} total, ${achievements.filter(a => a.public).length} published`;
-  if (!achievements.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  if (!achievements.length) { container.innerHTML = ''; empty.style.display = 'block'; return; }
   empty.style.display = 'none';
-  tbody.innerHTML = achievements.map(ach => {
+  container.innerHTML = achievements.map((ach, i) => {
     const color = categoryColors[ach.category] || categoryColors.default;
-    const dateStr = ach.date ? new Date(ach.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '—';
-    return `<tr>
-      <td><strong>${escapeHtml(ach.achievement)}</strong></td>
-      <td><span class="ach-badge" style="background:${color}22;color:${color};">${escapeHtml(ach.category || '—')}</span></td>
-      <td style="color:var(--text2);">${dateStr}</td>
-      <td><button class="toggle ${ach.public ? 'active' : ''}" onclick="toggleAchPublic('${ach.id}')"></button></td>
-      <td><div style="display:flex;gap:6px;">
-        <button class="icon-btn" onclick="editAchievement('${ach.id}')" title="Edit"><i class="fas fa-pen"></i></button>
-        <button class="icon-btn danger" onclick="deleteAchievement('${ach.id}')" title="Delete"><i class="fas fa-trash"></i></button>
-      </div></td>
-    </tr>`;
+    const dateStr = ach.date ? new Date(ach.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '';
+    const hasPhoto = ach.photos && ach.photos.length;
+    const side = i % 2 === 0 ? 'left' : 'right';
+    const photoHtml = hasPhoto
+      ? `<img src="${ach.photos[0].src}" alt="${escapeHtml(ach.achievement)}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+      : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:24px;"><i class="fas fa-image"></i></div>`;
+    return `<div class="ach-admin-card">
+      <div class="ach-admin-row" style="flex-direction:${side === 'right' ? 'row-reverse' : 'row'}">
+        <div class="ach-admin-media">${photoHtml}</div>
+        <div class="ach-admin-text">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;">
+            <div>
+              <div style="font-size:17px;font-weight:700;letter-spacing:-0.2px;">${escapeHtml(ach.achievement)}</div>
+              <span class="ach-badge" style="background:${color}22;color:${color};display:inline-block;padding:2px 10px;font-size:12px;font-weight:500;margin-top:4px;">${escapeHtml(ach.category || '')}</span>
+            </div>
+            ${dateStr ? `<span style="font-size:13px;color:var(--text2);white-space:nowrap;">${dateStr}</span>` : ''}
+          </div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:12px;">${escapeHtml(ach.description || '')}</p>
+          <div style="display:flex;gap:12px;font-size:12px;color:var(--text2);margin-bottom:10px;flex-wrap:wrap;">
+            ${ach.role ? `<div><span style="color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.5px;">Role</span><br>${escapeHtml(ach.role)}</div>` : ''}
+            ${ach.result ? `<div><span style="color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.5px;">Result</span><br>${escapeHtml(ach.result)}</div>` : ''}
+          </div>
+          ${ach.skills && ach.skills.length ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;">${ach.skills.map(s => `<span style="font-size:11px;padding:2px 8px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--text2);">${escapeHtml(s)}</span>`).join('')}</div>` : ''}
+          <div style="display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+            <button class="btn btn-ghost btn-sm" onclick="editAchievement('${ach.id}')"><i class="fas fa-pen"></i> Edit</button>
+            <button class="toggle ${ach.public ? 'active' : ''}" onclick="toggleAchPublic('${ach.id}')" style="margin:0;"></button>
+            <button class="btn btn-ghost btn-sm danger" onclick="deleteAchievement('${ach.id}')"><i class="fas fa-trash"></i> Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
   }).join('');
 }
 
@@ -706,18 +726,29 @@ function renderEditorCanvas() {
         </div>`).join('')}` : '<p style="color:var(--muted);">No items in Now section.</p>';
       break;
     case 'achievements':
-      canvas.innerHTML = achs.length ? achs.map(ach => `
-        <div style="padding:12px 0;border-bottom:1px solid var(--border);">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
-            <div contenteditable="true" data-field="achievement.${ach.id}.achievement" class="editor-editable" style="font-size:15px;font-weight:600;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${ach.achievement}</div>
-            <span style="font-size:12px;color:var(--accent);white-space:nowrap;">${ach.category || ''}</span>
+      canvas.innerHTML = achs.length ? achs.map((ach, i) => {
+        const side = i % 2 === 0 ? 'left' : 'right';
+        const hasPhoto = ach.photos && ach.photos.length;
+        const photoHtml = hasPhoto
+          ? `<img src="${ach.photos[0].src}" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;">`
+          : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:24px;"><i class="fas fa-image"></i></div>`;
+        return `<div style="padding:20px 0;border-bottom:1px solid var(--border);">
+          <div style="display:flex;gap:24px;align-items:center;flex-direction:${side === 'right' ? 'row-reverse' : 'row'}">
+            <div style="width:200px;min-height:150px;flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;aspect-ratio:4/3;">${photoHtml}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+                <div contenteditable="true" data-field="achievement.${ach.id}.achievement" class="editor-editable" style="font-size:15px;font-weight:700;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${ach.achievement}</div>
+                <span style="font-size:12px;color:var(--accent);white-space:nowrap;">${ach.category || ''}</span>
+              </div>
+              <div contenteditable="true" data-field="achievement.${ach.id}.description" class="editor-editable" style="font-size:13px;color:var(--text2);margin-top:6px;line-height:1.6;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${ach.description || ''}</div>
+              <div style="display:flex;gap:12px;font-size:12px;color:var(--text2);margin-top:10px;">
+                ${ach.role ? `<div><span style="color:var(--muted);text-transform:uppercase;font-size:10px;">Role</span><br>${ach.role}</div>` : ''}
+                ${ach.result ? `<div><span style="color:var(--muted);text-transform:uppercase;font-size:10px;">Result</span><br>${ach.result}</div>` : ''}
+              </div>
+            </div>
           </div>
-          <div contenteditable="true" data-field="achievement.${ach.id}.description" class="editor-editable" style="font-size:13px;color:var(--text2);margin-top:4px;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="updateEditorField(this)">${ach.description || ''}</div>
-          ${ach.photos && ach.photos.length ? `
-          <div style="display:flex;gap:6px;margin-top:8px;overflow-x:auto;">
-            ${ach.photos.map(p => `<img src="${p.src}" style="height:60px;border-radius:4px;border:1px solid var(--border);">`).join('')}
-          </div>` : ''}
-        </div>`).join('') : '<p style="color:var(--muted);">No achievements yet.</p>';
+        </div>`;
+      }).join('') : '<p style="color:var(--muted);">No achievements yet.</p>';
       break;
     case 'faq':
       canvas.innerHTML = faq.length ? faq.map((item, i) => `
