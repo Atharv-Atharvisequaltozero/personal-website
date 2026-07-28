@@ -139,7 +139,8 @@ nav {
 
 .hero-sub {
   font-size: 17px; color: var(--text2);
-  max-width: 520px; line-height: 1.7; margin-bottom: 48px;
+  max-width: 540px; line-height: 2; margin-bottom: 48px;
+  white-space: pre-line; letter-spacing: 0.01em;
 }
 
 /* FEATURED */
