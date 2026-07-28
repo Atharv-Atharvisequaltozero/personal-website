@@ -106,17 +106,17 @@
   },
   {
     "id": "ach_006",
-    "achievement": "Boy Scouts of America - Tenderfoot Rank",
-    "date": "2024-06-01",
-    "category": "Scouts",
-    "description": "Active member of BSA Troop 92 in Milpitas, achieving Tenderfoot Rank and developing outdoor survival, leadership, and community service skills.",
-    "role": "Scout, Troop 92",
-    "result": "Tenderfoot Rank",
+    "achievement": "Outstanding Delegate at MUN Conference",
+    "date": "2025-03-01",
+    "category": "MUN",
+    "description": "Awarded Outstanding Delegate at a Model United Nations conference, demonstrating excellence in debate, diplomacy, and policy negotiation.",
+    "role": "Delegate",
+    "result": "Outstanding Delegate",
     "skills": [
-      "Outdoor Skills",
-      "Leadership",
-      "Service",
-      "Self-Discipline"
+      "Public Speaking",
+      "Debate",
+      "Diplomacy",
+      "Research"
     ],
     "evidence": {
       "type": "link",
@@ -127,6 +127,48 @@
   },
   {
     "id": "ach_007",
+    "achievement": "VEX Robotics Nationals Division Quarterfinalist",
+    "date": "2025-04-01",
+    "category": "STEM",
+    "description": "Competed at the VEX Robotics National Championships, advancing to Division Quarterfinals and receiving the Judges Award for excellence in engineering and teamwork.",
+    "role": "Team Member",
+    "result": "Division Quarterfinalist + Judges Award",
+    "skills": [
+      "Robotics",
+      "Engineering",
+      "Programming",
+      "Teamwork"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_008",
+    "achievement": "VEX Robotics World Finals Attendee",
+    "date": "2025-05-01",
+    "category": "STEM",
+    "description": "Qualified and attended the VEX Robotics World Championships, competing on the global stage against teams from around the world.",
+    "role": "Team Member",
+    "result": "World Finals Participant",
+    "skills": [
+      "Robotics",
+      "Engineering",
+      "Programming",
+      "Global Competition"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_009",
     "achievement": "Head of Marketing, Bizworld Entrepreneurs",
     "date": "2022-08-01",
     "category": "Business",
@@ -147,7 +189,7 @@
     "public": true
   },
   {
-    "id": "ach_008",
+    "id": "ach_010",
     "achievement": "Student SMB Owner at Entrepreneur Fair",
     "date": "2024-03-01",
     "category": "Business",
@@ -168,7 +210,7 @@
     "public": true
   },
   {
-    "id": "ach_009",
+    "id": "ach_011",
     "achievement": "Competitive Soccer - Defense Player",
     "date": "2024-06-01",
     "category": "Sports",
@@ -189,7 +231,7 @@
     "public": true
   },
   {
-    "id": "ach_010",
+    "id": "ach_012",
     "achievement": "Family Giving Tree Wish Drive Fundraiser",
     "date": "2020-12-01",
     "category": "Community",
@@ -201,6 +243,152 @@
       "Charity",
       "Community Engagement",
       "Event Organization"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_013",
+    "achievement": "Boy Scouts of America — Scout Rank",
+    "date": "2023-09-01",
+    "category": "Scouts",
+    "description": "Earned the Scout rank, the first official rank in the Boy Scouts of America, marking the beginning of the Scouting journey.",
+    "role": "Scout, Troop 92",
+    "result": "Scout Rank",
+    "skills": [
+      "Scouting Fundamentals",
+      "Outdoor Skills",
+      "Service"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_014",
+    "achievement": "Boy Scouts of America — Tenderfoot Rank",
+    "date": "2024-02-01",
+    "category": "Scouts",
+    "description": "Achieved Tenderfoot rank in BSA Troop 92, mastering basic outdoor skills, first aid, and physical fitness requirements.",
+    "role": "Scout, Troop 92",
+    "result": "Tenderfoot Rank",
+    "skills": [
+      "Outdoor Skills",
+      "First Aid",
+      "Fitness",
+      "Leadership"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_015",
+    "achievement": "Boy Scouts of America — Second Class Rank",
+    "date": "2024-06-01",
+    "category": "Scouts",
+    "description": "Earned Second Class rank, demonstrating advanced outdoor skills, navigation, and community service participation.",
+    "role": "Scout, Troop 92",
+    "result": "Second Class Rank",
+    "skills": [
+      "Navigation",
+      "Camping",
+      "Service",
+      "Teamwork"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_016",
+    "achievement": "Boy Scouts of America — First Class Rank",
+    "date": "2025-01-01",
+    "category": "Scouts",
+    "description": "Achieved First Class rank, mastering advanced scouting skills including orienteering, emergency preparedness, and leadership.",
+    "role": "Scout, Troop 92",
+    "result": "First Class Rank",
+    "skills": [
+      "Orienteering",
+      "Emergency Prep",
+      "Leadership",
+      "Advanced Outdoor Skills"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_017",
+    "achievement": "Boy Scouts of America — Star Rank",
+    "date": "2025-06-01",
+    "category": "Scouts",
+    "description": "Earned Star rank, demonstrating sustained leadership, service hours, and merit badge advancement in the Scouts BSA program.",
+    "role": "Scout, Troop 92",
+    "result": "Star Rank",
+    "skills": [
+      "Leadership",
+      "Service",
+      "Merit Badge Advancement",
+      "Mentoring"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_018",
+    "achievement": "Participant, NYLT Scouting America Course Two",
+    "date": "2026-07-19",
+    "category": "Scouts",
+    "description": "Attended the National Youth Leadership Training (NYLT) course, a week-long leadership development program focused on team dynamics, communication, and ethical leadership.",
+    "role": "Participant",
+    "result": "Completed NYLT Course Two",
+    "skills": [
+      "Leadership Training",
+      "Team Dynamics",
+      "Communication",
+      "Goal Setting"
+    ],
+    "evidence": {
+      "type": "link",
+      "url": "",
+      "description": ""
+    },
+    "public": true
+  },
+  {
+    "id": "ach_019",
+    "achievement": "Participant, Camp Hi-Sierra (Boy Scouts)",
+    "date": "2026-06-21",
+    "category": "Scouts",
+    "description": "Attended resident camp at Camp Hi-Sierra, BSA's premier summer camp in the Sierra Nevada, earning merit badges and developing outdoor skills.",
+    "role": "Participant",
+    "result": "Completed summer camp program",
+    "skills": [
+      "Camping",
+      "Outdoor Skills",
+      "Merit Badges",
+      "Teamwork"
     ],
     "evidence": {
       "type": "link",
