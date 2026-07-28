@@ -7,6 +7,7 @@ const categoryColors = {
   'MUN': '#f97316', 'Robotics': '#10b981', 'School': '#8b5cf6',
   'STEM': '#10b981', 'Scouts': '#f59e0b', 'Leadership': '#f97316',
   'Community': '#ec4899', 'Sports': '#8b5cf6', 'Business': '#06b6d4',
+  'Writing': '#ec4899',
   'default': '#6b7280'
 };
 

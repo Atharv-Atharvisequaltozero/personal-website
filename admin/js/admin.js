@@ -8,7 +8,8 @@ let authToken = localStorage.getItem('admin_token') || '';
 const categoryColors = {
   'Student Council': '#3b82f6', 'STEM': '#10b981', 'Scouts': '#f59e0b',
   'Sports': '#8b5cf6', 'Community': '#ec4899', 'Leadership': '#f97316',
-  'Business': '#06b6d4', 'default': '#6b7280'
+  'Business': '#06b6d4', 'MUN': '#f97316', 'Writing': '#ec4899',
+  'default': '#6b7280'
 };
 
 async function uploadPhoto(file) {
