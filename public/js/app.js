@@ -4,7 +4,7 @@ const socialIcons = {
 };
 
 const categoryColors = {
-  'MUN': '#3b82f6', 'Robotics': '#10b981', 'School': '#8b5cf6',
+  'MUN': '#f97316', 'Robotics': '#10b981', 'School': '#8b5cf6',
   'STEM': '#10b981', 'Scouts': '#f59e0b', 'Leadership': '#f97316',
   'Community': '#ec4899', 'Sports': '#8b5cf6', 'Business': '#06b6d4',
   'default': '#6b7280'
