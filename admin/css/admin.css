@@ -315,8 +315,12 @@ textarea.form-input { min-height: 80px; resize: vertical; line-height: 1.6; }
 .ach-admin-media {
   width: 200px; min-height: 150px; flex-shrink: 0;
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: 8px; overflow: hidden; aspect-ratio: 4/3;
+  border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; position: relative;
 }
+.ach-card-add-photo { display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:14px;gap:8px; }
+.ach-card-add-photo i { font-size:24px; }
+.ach-card-upload-overlay { position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;gap:6px;opacity:0;transition:opacity 0.2s;pointer-events:none; }
+.ach-admin-media:hover .ach-card-upload-overlay { opacity:1; }
 
 .ach-admin-text { flex: 1; min-width: 0; }
 

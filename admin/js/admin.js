@@ -31,15 +31,15 @@ function photoUploadHtml(id, label) {
 
 async function handlePhotoUpload(input, gridId) {
   if (!input.files.length) return;
-  const url = await uploadPhoto(input.files[0]);
-  if (!url) return;
   const grid = document.getElementById(gridId);
-  if (grid) {
-    const photos = JSON.parse(grid.dataset.photos || '[]');
-    photos.push({ src: url, alt: '' });
-    grid.dataset.photos = JSON.stringify(photos);
-    renderPhotoGrid(gridId, photos);
+  if (!grid) { input.value = ''; return; }
+  const photos = JSON.parse(grid.dataset.photos || '[]');
+  for (const file of input.files) {
+    const url = await uploadPhoto(file);
+    if (url) photos.push({ src: url, alt: '' });
   }
+  grid.dataset.photos = JSON.stringify(photos);
+  renderPhotoGrid(gridId, photos);
   input.value = '';
 }
 
@@ -74,15 +74,21 @@ async function uploadActivityPhoto(input) {
 }
 
 async function uploadAchPhoto(input) {
+  await handlePhotoUpload(input, 'ach-photo-grid');
+}
+
+async function uploadCardPhoto(id, input) {
   if (!input.files.length) return;
-  const url = await uploadPhoto(input.files[0]);
-  if (!url) return;
-  const grid = document.getElementById('ach-photo-grid');
-  const photos = JSON.parse(grid.dataset.photos || '[]');
-  photos.push({ src: url, alt: '' });
-  grid.dataset.photos = JSON.stringify(photos);
-  renderPhotoGrid('ach-photo-grid', photos);
+  const ach = achievements.find(a => a.id === id);
+  if (!ach) return;
+  if (!ach.photos) ach.photos = [];
+  for (const file of input.files) {
+    const url = await uploadPhoto(file);
+    if (url) ach.photos.push({ src: url, alt: '' });
+  }
   input.value = '';
+  saveAchievementOrder();
+  renderAchievements();
 }
 
 function authHeaders() {
@@ -436,13 +442,18 @@ function renderAchievements() {
     const dateStr = ach.date ? new Date(ach.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '';
     const hasPhoto = ach.photos && ach.photos.length;
     const side = i % 2 === 0 ? 'left' : 'right';
+    const firstSrc = hasPhoto ? ach.photos[0].src : '';
     const photoHtml = hasPhoto
-      ? `<img src="${ach.photos[0].src}" alt="${escapeHtml(ach.achievement)}" style="width:100%;height:100%;object-fit:cover;display:block;">`
-      : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:24px;"><i class="fas fa-image"></i></div>`;
+      ? `<img src="${firstSrc}" alt="${escapeHtml(ach.achievement)}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+      : `<div class="ach-card-add-photo"><i class="fas fa-plus"></i><span>Add photos</span></div>`;
     return `<div class="ach-admin-card" draggable="true" data-ach-id="${ach.id}" data-ach-index="${i}">
       <div class="ach-drag-handle" draggable="true"><i class="fas fa-grip-vertical"></i></div>
       <div class="ach-admin-row" style="flex-direction:${side === 'right' ? 'row-reverse' : 'row'}">
-        <div class="ach-admin-media">${photoHtml}</div>
+        <div class="ach-admin-media" onclick="document.getElementById('ach-upload-${escapeHtml(ach.id)}').click()" style="cursor:pointer;position:relative;">
+          ${photoHtml}
+          <div class="ach-card-upload-overlay"><i class="fas fa-camera"></i> Click to add photos</div>
+          <input type="file" id="ach-upload-${escapeHtml(ach.id)}" accept="image/*" multiple style="display:none" onchange="uploadCardPhoto('${escapeHtml(ach.id)}', this)">
+        </div>
         <div class="ach-admin-text">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;">
             <div>
@@ -1041,3 +1052,33 @@ window.addEventListener('hashchange', () => {
   if (current && current.dataset.section === name) return;
   if (document.getElementById('section-' + name)) showSection(name);
 });
+
+async function downloadBackup() {
+  try {
+    const res = await fetch('/api/backup', { headers: authHeaders() });
+    const data = await res.json();
+    const blob = new Blob([JSON.stringify(data.backup, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'atharv-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    toast('Backup downloaded');
+  } catch { toast('Backup failed', 'error'); }
+}
+
+async function restoreBackup(input) {
+  if (!input.files.length) return;
+  try {
+    const text = await input.files[0].text();
+    const data = JSON.parse(text);
+    if (!data.site && !data.achievements) { toast('Invalid backup file', 'error'); return; }
+    const res = await fetch('/api/restore', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', ...authHeaders() },
+      body: JSON.stringify(data)
+    });
+    const result = await res.json();
+    if (result.success) { toast('Backup restored! Reloading...'); setTimeout(() => location.reload(), 1000); }
+    else toast('Restore failed', 'error');
+  } catch { toast('Invalid backup file', 'error'); }
+  input.value = '';
+}

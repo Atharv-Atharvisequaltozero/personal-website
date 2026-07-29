@@ -119,6 +119,11 @@
         <div style="margin-bottom:32px;">
           <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">Quick Actions</div>
           <p style="color:var(--text2);font-size:14px;">Click <strong>Publish</strong> to push all your draft changes to the live site. Your visitors will only see what's been published.</p>
+          <div style="display:flex;gap:8px;margin-top:12px;">
+            <button class="btn btn-ghost btn-sm" onclick="downloadBackup()"><i class="fas fa-download"></i> Download Backup</button>
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('restore-input').click()"><i class="fas fa-upload"></i> Restore Backup</button>
+            <input type="file" id="restore-input" accept=".json" style="display:none" onchange="restoreBackup(this)">
+          </div>
         </div>
       </div>
 
@@ -531,7 +536,7 @@
         <div class="form-group">
           <label class="form-label">Photos</label>
           <div class="photo-upload-area" onclick="document.getElementById('ach-field-photos').click()">
-            <input type="file" id="ach-field-photos" accept="image/*" onchange="uploadAchPhoto(this)">
+            <input type="file" id="ach-field-photos" accept="image/*" multiple onchange="uploadAchPhoto(this)">
             <i class="fas fa-camera" style="font-size:16px;margin-bottom:4px;display:block;"></i>Click to upload photos
           </div>
           <div class="photo-grid" id="ach-photo-grid" data-photos="[]"></div>

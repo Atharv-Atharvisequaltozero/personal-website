@@ -34,10 +34,16 @@ function writeJSON(filePath, data) {
 }
 
 function gitAutoSave() {
-  exec('git add data/ && git commit -m "auto-save" --allow-empty && git push', { cwd: __dirname }, (err, stdout, stderr) => {
-    if (err) console.error('git auto-save error:', stderr || err.message);
-    else console.log('git auto-save ok');
+  const cwd = __dirname;
+  const gitCmd = `git add data/ && (git diff --cached --quiet || git commit -m "auto-save" && git push)`;
+  exec(gitCmd, { cwd, timeout: 30000 }, (err, stdout, stderr) => {
+    if (err && !err.message.includes('Could not read from remote')) {
+      console.error('git auto-save issue:', stderr || err.message);
+    } else if (!err) {
+      console.log('git auto-save ok');
+    }
   });
+  exec(`cp ${path.join(DATA_DIR, 'draft', 'achievements.json')} ${path.join(DATA_DIR, 'draft', 'achievements.backup.json')}`, { cwd }, () => {});
 }
 
 function signToken(payload) {
@@ -161,6 +167,21 @@ app.post('/api/upload', authRequired, upload.single('file'), (req, res) => {
   const b64 = req.file.buffer.toString('base64');
   const mime = req.file.mimetype;
   res.json({ url: `data:${mime};base64,${b64}`, filename: req.file.filename });
+});
+
+app.get('/api/backup', authRequired, (req, res) => {
+  const site = readJSON(path.join(DRAFT_DIR, 'site.json')) || {};
+  const achievements = readJSON(path.join(DRAFT_DIR, 'achievements.json')) || [];
+  res.json({ backup: { site, achievements, exportedAt: new Date().toISOString() } });
+});
+
+app.post('/api/restore', authRequired, (req, res) => {
+  try {
+    const { site, achievements } = req.body;
+    if (site) writeJSON(path.join(DRAFT_DIR, 'site.json'), site);
+    if (achievements) writeJSON(path.join(DRAFT_DIR, 'achievements.json'), achievements);
+    res.json({ success: true, message: 'Backup restored. Click Publish to make live.' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 app.post('/api/publish', authRequired, (req, res) => {
