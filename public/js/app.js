@@ -141,6 +141,7 @@ function renderHome() {
     ${renderFaqSection()}`;
   
   if (phrases.length) startTypewriter(phrases);
+  initCarousels();
 }
 
 function renderAbout() {
@@ -228,6 +229,7 @@ function renderAchievements() {
       ${achievements.length ? achievements.map((a, i) => renderAchievementEntry(a, i)).join('') :
         '<p style="color:var(--muted);padding:40px 0;">No achievements published yet.</p>'}
     </div>`;
+  initCarousels();
 }
 
 function filterAchievements(cat) {
@@ -239,17 +241,28 @@ function filterAchievements(cat) {
   document.getElementById('ach-grid').innerHTML = achievements.length
     ? achievements.map((a, i) => renderAchievementEntry(a, i)).join('')
     : '<p style="color:var(--muted);padding:40px 0;">No achievements in this category.</p>';
+  initCarousels();
 }
 
 function renderAchievementEntry(ach, idx) {
   const color = categoryColors[ach.category] || categoryColors.default;
   const dateStr = ach.date ? new Date(ach.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-  const hasMedia = ach.photos && ach.photos.length;
+  const photos = ach.photos || [];
+  const hasMedia = photos.length;
   const side = (idx || 0) % 2 === 0 ? 'left' : 'right';
 
-  const mediaHtml = hasMedia
-    ? `<img src="${ach.photos[0].src}" alt="${ach.achievement}" loading="lazy">`
-    : `<div class="ach-placeholder"><i class="fas fa-image"></i></div>`;
+  const mediaHtml = !hasMedia
+    ? `<div class="ach-placeholder"><i class="fas fa-image"></i></div>`
+    : photos.length > 1
+    ? `<div class="ach-carousel" data-images='${JSON.stringify(photos.map(p => p.src))}'>
+        <div class="carousel-track">
+          ${photos.map((p, i) => `<div class="carousel-slide${i === 0 ? ' active' : ''}"><img src="${p.src}" alt="${ach.achievement}" loading="lazy"></div>`).join('')}
+        </div>
+        <div class="carousel-dots">
+          ${photos.map((_, i) => `<span class="carousel-dot${i === 0 ? ' active' : ''}"></span>`).join('')}
+        </div>
+      </div>`
+    : `<img src="${photos[0].src}" alt="${ach.achievement}" loading="lazy">`;
 
   return `
     <div class="ach-entry">
@@ -396,4 +409,23 @@ function startTypewriter(phrases) {
     }
   }
   tick();
+}
+
+function initCarousels() {
+  document.querySelectorAll('.ach-carousel').forEach(el => {
+    if (el.dataset.carouselInit) return;
+    el.dataset.carouselInit = '1';
+    const images = JSON.parse(el.dataset.images || '[]');
+    if (images.length < 2) return;
+    const slides = el.querySelectorAll('.carousel-slide');
+    const dots = el.querySelectorAll('.carousel-dot');
+    let idx = 0;
+    setInterval(() => {
+      slides[idx].classList.remove('active');
+      if (dots[idx]) dots[idx].classList.remove('active');
+      idx = (idx + 1) % images.length;
+      slides[idx].classList.add('active');
+      if (dots[idx]) dots[idx].classList.add('active');
+    }, 3000);
+  });
 }
