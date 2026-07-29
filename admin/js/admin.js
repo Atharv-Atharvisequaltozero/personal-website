@@ -187,8 +187,8 @@ function populateAll() {
   renderFaqList();
   renderContactSettings();
   renderStats();
-  const savedSection = localStorage.getItem('admin_section') || 'dashboard';
-  showSection(savedSection);
+  const savedSection = window.location.hash.replace('#', '') || 'dashboard';
+  if (document.getElementById('section-' + savedSection)) showSection(savedSection);
 }
 
 function renderStats() {
@@ -711,7 +711,7 @@ function showSection(name) {
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
   document.getElementById('section-' + name).classList.add('active');
   document.querySelector(`.sidebar-link[data-section="${name}"]`).classList.add('active');
-  localStorage.setItem('admin_section', name);
+  window.location.hash = name;
 }
 
 function openModal(id) { document.getElementById(id).classList.add('open'); }
@@ -1035,3 +1035,7 @@ async function saveContact() {
 }
 
 document.addEventListener('DOMContentLoaded', checkAuth);
+window.addEventListener('hashchange', () => {
+  const name = window.location.hash.replace('#', '') || 'dashboard';
+  if (document.getElementById('section-' + name)) showSection(name);
+});

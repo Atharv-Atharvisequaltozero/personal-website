@@ -37,7 +37,8 @@ async function init() {
   const savedTheme = localStorage.getItem('site_theme');
   const theme = (getSettings().theme || savedTheme || 'light');
   document.body.setAttribute('data-theme', theme);
-  const savedPage = localStorage.getItem('site_page') || 'home';
+  let savedPage = window.location.hash.replace('#', '') || 'home';
+  if (!document.getElementById('page-' + savedPage)) savedPage = 'home';
   renderPage(savedPage);
   renderFooter();
 }
@@ -72,7 +73,7 @@ function renderNav() {
 
 function renderPage(page) {
   currentPage = page;
-  localStorage.setItem('site_page', page);
+  window.location.hash = page;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById('page-' + page);
   if (el) el.classList.add('active');
@@ -380,6 +381,10 @@ function renderFooter() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+window.addEventListener('hashchange', () => {
+  const page = window.location.hash.replace('#', '') || 'home';
+  if (document.getElementById('page-' + page) && page !== currentPage) renderPage(page);
+});
 
 let typewriterInterval = null;
 function startTypewriter(phrases) {
