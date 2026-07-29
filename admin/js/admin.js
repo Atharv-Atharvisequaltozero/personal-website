@@ -437,7 +437,8 @@ function renderAchievements() {
     const photoHtml = hasPhoto
       ? `<img src="${ach.photos[0].src}" alt="${escapeHtml(ach.achievement)}" style="width:100%;height:100%;object-fit:cover;display:block;">`
       : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:24px;"><i class="fas fa-image"></i></div>`;
-    return `<div class="ach-admin-card">
+    return `<div class="ach-admin-card" draggable="true" data-ach-id="${ach.id}" data-ach-index="${i}">
+      <div class="ach-drag-handle" draggable="true"><i class="fas fa-grip-vertical"></i></div>
       <div class="ach-admin-row" style="flex-direction:${side === 'right' ? 'row-reverse' : 'row'}">
         <div class="ach-admin-media">${photoHtml}</div>
         <div class="ach-admin-text">
@@ -463,6 +464,58 @@ function renderAchievements() {
       </div>
     </div>`;
   }).join('');
+  initDragReorder();
+}
+
+function initDragReorder() {
+  const container = document.getElementById('ach-list');
+  let dragSrcIdx = null;
+  container.addEventListener('dragstart', e => {
+    const card = e.target.closest('.ach-admin-card');
+    if (!card) return;
+    dragSrcIdx = parseInt(card.dataset.achIndex);
+    card.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  container.addEventListener('dragover', e => {
+    e.preventDefault();
+    const card = e.target.closest('.ach-admin-card');
+    if (!card || parseInt(card.dataset.achIndex) === dragSrcIdx) return;
+    card.classList.add('drag-over');
+  });
+  container.addEventListener('dragleave', e => {
+    const card = e.target.closest('.ach-admin-card');
+    if (card) card.classList.remove('drag-over');
+  });
+  container.addEventListener('drop', e => {
+    e.preventDefault();
+    const card = e.target.closest('.ach-admin-card');
+    if (!card || dragSrcIdx === null) return;
+    const dropIdx = parseInt(card.dataset.achIndex);
+    if (dragSrcIdx === dropIdx) return;
+    const item = achievements.splice(dragSrcIdx, 1)[0];
+    achievements.splice(dropIdx, 0, item);
+    dragSrcIdx = null;
+    saveAchievementOrder();
+    renderAchievements();
+  });
+  container.addEventListener('dragend', () => {
+    container.querySelectorAll('.ach-admin-card').forEach(c => {
+      c.classList.remove('dragging', 'drag-over');
+    });
+    dragSrcIdx = null;
+  });
+}
+
+function saveAchievementOrder() {
+  const token = localStorage.getItem('admin_token');
+  fetch('/api/draft/achievements', {
+    method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    body: JSON.stringify(achievements)
+  }).then(r => r.json()).then(d => {
+    if (d.success) toast('Order saved');
+    else toast('Failed to save order', 'error');
+  }).catch(() => toast('Failed to save order', 'error'));
 }
 
 function openAchModal() {
