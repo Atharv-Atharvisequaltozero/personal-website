@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
 const DRAFT_DIR = path.join(DATA_DIR, 'draft');
 const PUB_DIR = path.join(DATA_DIR, 'published');
-const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
 
 const ADMIN_USER = 'admin';
 const ADMIN_PASS_HASH = bcrypt.hashSync('atharv2025', 10);
@@ -21,14 +20,7 @@ app.set('trust proxy', 1);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, UPLOAD_DIR),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + '-' + Math.round(Math.random() * 1e6) + ext);
-  }
-});
-const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 50 * 1024 * 1024 } });
 
 function readJSON(filePath) {
   try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); }
@@ -57,7 +49,7 @@ function verifyToken(token) {
 }
 
 function ensureDirs() {
-  [DRAFT_DIR, PUB_DIR, UPLOAD_DIR].forEach(dir => {
+  [DRAFT_DIR, PUB_DIR].forEach(dir => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   });
   const draftSite = path.join(DRAFT_DIR, 'site.json');
@@ -102,7 +94,6 @@ function authRequired(req, res, next) {
 ensureDirs();
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(UPLOAD_DIR));
 app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
 app.post('/api/login', (req, res) => {
@@ -158,7 +149,9 @@ app.delete('/api/draft/achievements/:id', authRequired, (req, res) => {
 
 app.post('/api/upload', authRequired, upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-  res.json({ url: '/uploads/' + req.file.filename, filename: req.file.filename });
+  const b64 = req.file.buffer.toString('base64');
+  const mime = req.file.mimetype;
+  res.json({ url: `data:${mime};base64,${b64}`, filename: req.file.filename });
 });
 
 app.post('/api/publish', authRequired, (req, res) => {

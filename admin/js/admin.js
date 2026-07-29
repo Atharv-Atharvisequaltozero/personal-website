@@ -590,8 +590,8 @@ function toggleAchPublic(id) {
 function deleteAchievement(id) {
   if (!confirm('Delete this achievement?')) return;
   achievements = achievements.filter(a => a.id !== id);
+  saveAchievementOrder();
   renderAchievements(); renderStats();
-  toast('Achievement deleted (draft)');
 }
 
 async function saveSiteSettings() {
