@@ -1037,5 +1037,7 @@ async function saveContact() {
 document.addEventListener('DOMContentLoaded', checkAuth);
 window.addEventListener('hashchange', () => {
   const name = window.location.hash.replace('#', '') || 'dashboard';
+  const current = document.querySelector('.sidebar-link.active');
+  if (current && current.dataset.section === name) return;
   if (document.getElementById('section-' + name)) showSection(name);
 });
