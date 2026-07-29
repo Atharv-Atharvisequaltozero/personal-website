@@ -41,7 +41,7 @@
   },
   "now": [
     { "icon": "fa-robot", "title": "Robotics", "description": "Building and competing with my robotics team." },
-    { "icon": "fa-globe", "title": "MUN", "description": "Exploring international policy and AI governance." },
+    { "icon": "fa-globe", "title": "MUN", "description": "Preparing for the Sonoma MS Debate Conference — departing Jan 29 for a three-day tournament." },
     { "icon": "fa-brain", "title": "Learning", "description": "Developing my skills in AI, Python, and engineering." },
     { "icon": "fa-rocket", "title": "Next", "description": "Exploring the intersection of AI, robotics, and public policy." }
   ],
