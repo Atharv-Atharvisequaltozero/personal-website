@@ -313,7 +313,7 @@ function saveNowItem() {
   draft.now = nowItems;
   closeModal('now-modal');
   renderNowList();
-  toast('Item saved (draft)');
+  saveNow();
 }
 
 function deleteNowItem(idx) {
@@ -321,7 +321,7 @@ function deleteNowItem(idx) {
   nowItems.splice(idx, 1);
   draft.now = nowItems;
   renderNowList();
-  toast('Item deleted (draft)');
+  saveNow();
 }
 
 async function saveNow() {
@@ -579,7 +579,7 @@ function saveAchievement() {
   if (editId) { const idx = achievements.findIndex(a => a.id === editId); if (idx >= 0) achievements[idx] = data; }
   else achievements.push(data);
   closeModal('ach-modal'); renderAchievements(); renderStats();
-  toast('Achievement saved (draft)');
+  saveAchievementOrder();
 }
 
 function toggleAchPublic(id) {
@@ -945,7 +945,7 @@ function saveFaqItem() {
   draft.faq = faqItems;
   closeModal('faq-modal');
   renderFaqList();
-  toast('FAQ item saved (draft)');
+  saveFaq();
 }
 
 function deleteFaqItem(idx) {
@@ -953,7 +953,7 @@ function deleteFaqItem(idx) {
   faqItems.splice(idx, 1);
   draft.faq = faqItems;
   renderFaqList();
-  toast('FAQ item deleted (draft)');
+  saveFaq();
 }
 
 async function saveFaq() {
