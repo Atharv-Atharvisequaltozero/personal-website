@@ -192,18 +192,6 @@
     "public": true
   },
   {
-    "id": "ach_019",
-    "achievement": "Participant, Camp Hi-Sierra (Boy Scouts)",
-    "date": "2026-06-21",
-    "category": "Scouts",
-    "description": "Attended resident camp at Camp Hi-Sierra, BSA's premier summer camp in the Sierra Nevada, earning merit badges and developing outdoor skills.",
-    "role": "Participant",
-    "result": "Completed summer camp program",
-    "skills": ["Camping", "Outdoor Skills", "Merit Badges", "Teamwork"],
-    "evidence": { "type": "link", "url": "", "description": "" },
-    "public": true
-  },
-  {
     "id": "ach_012",
     "achievement": "Family Giving Tree Wish Drive Fundraiser",
     "date": "2020-12-01",
