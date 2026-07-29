@@ -101,7 +101,9 @@ function renderHome() {
   const activities = (d.activities || []).filter(a => a.enabled);
   const featured = (h.featured || []).filter(id => activities.find(a => a.id === id));
   const now = d.now || [];
-  const phrases = h.hero_phrases || [];
+  const manualPhrases = h.hero_phrases || [];
+  const achPhrases = (data.achievements || []).filter(a => a.public !== false).map(a => a.achievement);
+  const phrases = [...new Set([...manualPhrases, ...achPhrases])];
 
   document.getElementById('page-home').innerHTML = `
     <h1 class="hero-text">${h.hero_text || ''}</h1>
@@ -145,15 +147,18 @@ function renderHome() {
 }
 
 function renderAbout() {
-  const a = getDraft().about || {};
+  const about = getDraft().about || {};
+  const manualHighlights = about.highlights || [];
+  const achHighlights = (data.achievements || []).filter(a => a.public !== false).map(a => a.achievement);
+  const highlights = [...new Set([...manualHighlights, ...achHighlights])];
   document.getElementById('page-about').innerHTML = `
     <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:24px;">About</h2>
-    <p class="about-intro">${a.intro || ''}</p>
-    ${a.highlights && a.highlights.length ? `
+    <p class="about-intro">${about.intro || ''}</p>
+    ${highlights.length ? `
       <ul class="highlights-list">
-        ${a.highlights.map(h => `<li>${h}</li>`).join('')}
+        ${highlights.map(h => `<li>${h}</li>`).join('')}
       </ul>` : ''}
-    ${a.bio ? `<div class="about-bio">${a.bio}</div>` : ''}`;
+    ${about.bio ? `<div class="about-bio">${about.bio}</div>` : ''}`;
 }
 
 function renderActivities() {
