@@ -30,20 +30,29 @@ function readJSON(filePath) {
 
 function writeJSON(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  if (filePath.startsWith(DATA_DIR)) gitAutoSave();
+  if (filePath.startsWith(DATA_DIR)) commitToGit();
 }
 
-function gitAutoSave() {
+function commitToGit() {
   const cwd = __dirname;
-  const gitCmd = `git add data/ && (git diff --cached --quiet || git commit -m "auto-save" && git push)`;
-  exec(gitCmd, { cwd, timeout: 30000 }, (err, stdout, stderr) => {
-    if (err && !err.message.includes('Could not read from remote')) {
-      console.error('git auto-save issue:', stderr || err.message);
-    } else if (!err) {
-      console.log('git auto-save ok');
+  const token = process.env.GITHUB_TOKEN;
+  exec('git add data/ && git diff --cached --quiet || git commit -m "auto-save"', { cwd, timeout: 15000 }, (err) => {
+    if (err && !err.message.includes('nothing to commit')) {
+      console.error('git commit error:', err.message);
+      return;
+    }
+    if (token) {
+      const remote = `https://Atharv-Atharvisequaltozero:${token}@github.com/Atharv-Atharvisequaltozero/personal-website.git`;
+      exec(`git push ${remote} main`, { cwd, timeout: 30000 }, (e, out, serr) => {
+        if (e) console.error('git push error:', serr || e.message);
+        else console.log('git push ok');
+      });
+    } else {
+      exec('git push', { cwd, timeout: 30000 }, (e, out, serr) => {
+        if (e) console.log('git push unavailable (read-only deploy key)');
+      });
     }
   });
-  exec(`cp ${path.join(DATA_DIR, 'draft', 'achievements.json')} ${path.join(DATA_DIR, 'draft', 'achievements.backup.json')}`, { cwd }, () => {});
 }
 
 function signToken(payload) {
