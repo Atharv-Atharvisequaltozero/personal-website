@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,8 +18,8 @@ const ADMIN_PASS_HASH = bcrypt.hashSync('atharv2025', 10);
 const AUTH_SECRET = process.env.AUTH_SECRET || 'atharv-personal-site-secret-2026';
 
 app.set('trust proxy', 1);
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 50 * 1024 * 1024 } });
 
@@ -29,6 +30,14 @@ function readJSON(filePath) {
 
 function writeJSON(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  if (filePath.startsWith(DATA_DIR)) gitAutoSave();
+}
+
+function gitAutoSave() {
+  exec('git add data/ && git commit -m "auto-save" --allow-empty && git push', { cwd: __dirname }, (err, stdout, stderr) => {
+    if (err) console.error('git auto-save error:', stderr || err.message);
+    else console.log('git auto-save ok');
+  });
 }
 
 function signToken(payload) {
