@@ -187,6 +187,8 @@ function populateAll() {
   renderFaqList();
   renderContactSettings();
   renderStats();
+  const savedSection = localStorage.getItem('admin_section') || 'dashboard';
+  showSection(savedSection);
 }
 
 function renderStats() {
@@ -709,6 +711,7 @@ function showSection(name) {
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
   document.getElementById('section-' + name).classList.add('active');
   document.querySelector(`.sidebar-link[data-section="${name}"]`).classList.add('active');
+  localStorage.setItem('admin_section', name);
 }
 
 function openModal(id) { document.getElementById(id).classList.add('open'); }

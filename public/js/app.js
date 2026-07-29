@@ -37,7 +37,8 @@ async function init() {
   const savedTheme = localStorage.getItem('site_theme');
   const theme = (getSettings().theme || savedTheme || 'light');
   document.body.setAttribute('data-theme', theme);
-  renderPage('home');
+  const savedPage = localStorage.getItem('site_page') || 'home';
+  renderPage(savedPage);
   renderFooter();
 }
 
@@ -71,6 +72,7 @@ function renderNav() {
 
 function renderPage(page) {
   currentPage = page;
+  localStorage.setItem('site_page', page);
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById('page-' + page);
   if (el) el.classList.add('active');
