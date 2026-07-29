@@ -7,17 +7,8 @@
     "description": "Co-authored a published book. Worked on the project since February 2025, contributing to the development of the story, world-building, and creative direction.",
     "role": "Co-Author",
     "result": "Published book (2026)",
-    "skills": [
-      "Creative Writing",
-      "Storytelling",
-      "World-Building",
-      "Collaboration"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Creative Writing", "Storytelling", "World-Building", "Collaboration"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -28,17 +19,8 @@
     "description": "Qualified and attended the VEX Robotics World Championships, competing on the global stage against teams from around the world.",
     "role": "Team Member",
     "result": "World Finals Participant",
-    "skills": [
-      "Robotics",
-      "Engineering",
-      "Programming",
-      "Global Competition"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Robotics", "Engineering", "Programming", "Global Competition"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -47,19 +29,10 @@
     "date": "2025-04-01",
     "category": "STEM",
     "description": "Competed at the VEX Robotics National Championships, advancing to Division Quarterfinals and receiving the Judges Award for excellence in engineering and teamwork.",
-    "role": "Team Member",
+    "role": "Team Captain & Lead Builder",
     "result": "Division Quarterfinalist + Judges Award",
-    "skills": [
-      "Robotics",
-      "Engineering",
-      "Programming",
-      "Teamwork"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Robotics", "Engineering", "Programming", "Teamwork"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -70,17 +43,8 @@
     "description": "Competed at the VEX Robotics State Championships, qualifying from regional competitions to represent our team at the state level.",
     "role": "Team Member",
     "result": "State Finalist",
-    "skills": [
-      "Robotics",
-      "Engineering",
-      "Programming",
-      "Strategic Thinking"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Robotics", "Engineering", "Programming", "Strategic Thinking"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -91,17 +55,8 @@
     "description": "Awarded Outstanding Delegate at a Model United Nations conference, demonstrating excellence in debate, diplomacy, and policy negotiation.",
     "role": "Delegate",
     "result": "Outstanding Delegate",
-    "skills": [
-      "Public Speaking",
-      "Debate",
-      "Diplomacy",
-      "Research"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Public Speaking", "Debate", "Diplomacy", "Research"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -112,17 +67,8 @@
     "description": "Qualified as a World Finalist at the Odyssey of the Mind World Championships in Iowa. Previously competed at the 2023 World Finals in Michigan.",
     "role": "Team Member / Problem Solver",
     "result": "World Finalist (2023 & 2024)",
-    "skills": [
-      "Creative Problem Solving",
-      "Teamwork",
-      "Time Management",
-      "Public Performance"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Creative Problem Solving", "Teamwork", "Time Management", "Public Performance"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -133,17 +79,8 @@
     "description": "Earned Star rank, demonstrating sustained leadership, service hours, and merit badge advancement in the Scouts BSA program.",
     "role": "Scout, Troop 92",
     "result": "Star Rank",
-    "skills": [
-      "Leadership",
-      "Service",
-      "Merit Badge Advancement",
-      "Mentoring"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Leadership", "Service", "Merit Badge Advancement", "Mentoring"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -154,17 +91,8 @@
     "description": "Achieved First Class rank, mastering advanced scouting skills including orienteering, emergency preparedness, and leadership.",
     "role": "Scout, Troop 92",
     "result": "First Class Rank",
-    "skills": [
-      "Orienteering",
-      "Emergency Prep",
-      "Leadership",
-      "Advanced Outdoor Skills"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Orienteering", "Emergency Prep", "Leadership", "Advanced Outdoor Skills"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -175,17 +103,8 @@
     "description": "Earned Second Class rank, demonstrating advanced outdoor skills, navigation, and community service participation.",
     "role": "Scout, Troop 92",
     "result": "Second Class Rank",
-    "skills": [
-      "Navigation",
-      "Camping",
-      "Service",
-      "Teamwork"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Navigation", "Camping", "Service", "Teamwork"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -196,17 +115,8 @@
     "description": "Achieved Tenderfoot rank in BSA Troop 92, mastering basic outdoor skills, first aid, and physical fitness requirements.",
     "role": "Scout, Troop 92",
     "result": "Tenderfoot Rank",
-    "skills": [
-      "Outdoor Skills",
-      "First Aid",
-      "Fitness",
-      "Leadership"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Outdoor Skills", "First Aid", "Fitness", "Leadership"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -217,16 +127,8 @@
     "description": "Earned the Scout rank, the first official rank in the Boy Scouts of America, marking the beginning of the Scouting journey.",
     "role": "Scout, Troop 92",
     "result": "Scout Rank",
-    "skills": [
-      "Scouting Fundamentals",
-      "Outdoor Skills",
-      "Service"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Scouting Fundamentals", "Outdoor Skills", "Service"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -237,17 +139,8 @@
     "description": "Served as Vice President of the Fundraising Committee for Curtner Student Council, planning and executing school-wide fundraising events and managing budgets.",
     "role": "Vice President, Fundraising Committee",
     "result": "Successfully organized multiple fundraising events",
-    "skills": [
-      "Leadership",
-      "Event Planning",
-      "Budget Management",
-      "Team Coordination"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Leadership", "Event Planning", "Budget Management", "Team Coordination"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -258,17 +151,8 @@
     "description": "Founded and served as President of the Curtner Origami Club, growing membership to 10-15 active members and organizing regular club meetings and activities.",
     "role": "President & Founder",
     "result": "Grew club to 10-15 active members",
-    "skills": [
-      "Club Management",
-      "Teaching",
-      "Organization",
-      "Public Speaking"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Club Management", "Teaching", "Organization", "Public Speaking"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -279,17 +163,8 @@
     "description": "Organized a recreational soccer league at Curtner, bringing together students for organized play and building a sense of community through sports.",
     "role": "Organizer & League Director",
     "result": "Established an active recreational soccer league",
-    "skills": [
-      "Event Organization",
-      "Sports Management",
-      "Community Building",
-      "Leadership"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Event Organization", "Sports Management", "Community Building", "Leadership"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -300,17 +175,8 @@
     "description": "Defense player for the Competitive Soccer League in Milpitas from 2022-2024, developing tactical awareness, discipline, and teamwork on the field.",
     "role": "Defense Player",
     "result": "2+ years of competitive play",
-    "skills": [
-      "Athletics",
-      "Teamwork",
-      "Tactical Thinking",
-      "Discipline"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Athletics", "Teamwork", "Tactical Thinking", "Discipline"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -321,17 +187,8 @@
     "description": "Attended the National Youth Leadership Training (NYLT) course, a week-long leadership development program focused on team dynamics, communication, and ethical leadership.",
     "role": "Participant",
     "result": "Completed NYLT Course Two",
-    "skills": [
-      "Leadership Training",
-      "Team Dynamics",
-      "Communication",
-      "Goal Setting"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Leadership Training", "Team Dynamics", "Communication", "Goal Setting"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -342,17 +199,8 @@
     "description": "Attended resident camp at Camp Hi-Sierra, BSA's premier summer camp in the Sierra Nevada, earning merit badges and developing outdoor skills.",
     "role": "Participant",
     "result": "Completed summer camp program",
-    "skills": [
-      "Camping",
-      "Outdoor Skills",
-      "Merit Badges",
-      "Teamwork"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Camping", "Outdoor Skills", "Merit Badges", "Teamwork"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -363,17 +211,8 @@
     "description": "Organized fundraising efforts for the Family Giving Tree Wish Drive, raising $1,000 to support families in need during the holiday season.",
     "role": "Fundraiser",
     "result": "$1,000 raised",
-    "skills": [
-      "Fundraising",
-      "Charity",
-      "Community Engagement",
-      "Event Organization"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Fundraising", "Charity", "Community Engagement", "Event Organization"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -384,17 +223,8 @@
     "description": "Served as Head of Marketing for the Summer Bizworld Entrepreneurs Middle School Club, developing marketing strategies and promoting the club's initiatives.",
     "role": "Head of Marketing",
     "result": "Led marketing efforts for the club",
-    "skills": [
-      "Marketing",
-      "Communication",
-      "Digital Strategy",
-      "Team Leadership"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Marketing", "Communication", "Digital Strategy", "Team Leadership"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   },
   {
@@ -405,17 +235,8 @@
     "description": "Created and ran a student small business at the Curtner Entrepreneur Fair, gaining hands-on experience in business planning, pricing, and customer interaction.",
     "role": "Business Owner",
     "result": "Successfully ran a student business at the fair",
-    "skills": [
-      "Entrepreneurship",
-      "Financial Literacy",
-      "Customer Service",
-      "Marketing"
-    ],
-    "evidence": {
-      "type": "link",
-      "url": "",
-      "description": ""
-    },
+    "skills": ["Entrepreneurship", "Financial Literacy", "Customer Service", "Marketing"],
+    "evidence": { "type": "link", "url": "", "description": "" },
     "public": true
   }
 ]
