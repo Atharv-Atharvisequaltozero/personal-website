@@ -469,7 +469,11 @@ function renderAchievements() {
 
 function initDragReorder() {
   const container = document.getElementById('ach-list');
+  if (container.dataset.dragInit) return;
+  container.dataset.dragInit = '1';
   let dragSrcIdx = null;
+  let scrollInterval = null;
+
   container.addEventListener('dragstart', e => {
     const card = e.target.closest('.ach-admin-card');
     if (!card) return;
@@ -477,18 +481,34 @@ function initDragReorder() {
     card.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'move';
   });
+
   container.addEventListener('dragover', e => {
     e.preventDefault();
     const card = e.target.closest('.ach-admin-card');
     if (!card || parseInt(card.dataset.achIndex) === dragSrcIdx) return;
     card.classList.add('drag-over');
+
+    const threshold = 80;
+    if (e.clientY < threshold) startScroll(-10);
+    else if (e.clientY > window.innerHeight - threshold) startScroll(10);
+    else stopScroll();
   });
+
+  function startScroll(delta) {
+    if (scrollInterval) return;
+    scrollInterval = setInterval(() => { window.scrollBy(0, delta); }, 20);
+  }
+  function stopScroll() {
+    if (scrollInterval) { clearInterval(scrollInterval); scrollInterval = null; }
+  }
+
   container.addEventListener('dragleave', e => {
     const card = e.target.closest('.ach-admin-card');
     if (card) card.classList.remove('drag-over');
   });
+
   container.addEventListener('drop', e => {
-    e.preventDefault();
+    e.preventDefault(); stopScroll();
     const card = e.target.closest('.ach-admin-card');
     if (!card || dragSrcIdx === null) return;
     const dropIdx = parseInt(card.dataset.achIndex);
@@ -499,7 +519,9 @@ function initDragReorder() {
     saveAchievementOrder();
     renderAchievements();
   });
+
   container.addEventListener('dragend', () => {
+    stopScroll();
     container.querySelectorAll('.ach-admin-card').forEach(c => {
       c.classList.remove('dragging', 'drag-over');
     });
@@ -508,9 +530,8 @@ function initDragReorder() {
 }
 
 function saveAchievementOrder() {
-  const token = localStorage.getItem('admin_token');
   fetch('/api/draft/achievements', {
-    method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    method: 'PUT', headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(achievements)
   }).then(r => r.json()).then(d => {
     if (d.success) toast('Order saved');
