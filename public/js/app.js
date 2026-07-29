@@ -275,7 +275,7 @@ function renderAchievementEntry(ach, idx) {
           ${ach.evidence && ach.evidence.url ? `
             <div class="ach-evidence">
               <a href="${ach.evidence.url}" target="_blank" rel="noopener noreferrer">
-                <i class="fas fa-external-link-alt"></i> ${ach.evidence.description || 'View Evidence'}
+                <i class="fas fa-external-link-alt"></i> ${ach.evidence.description || 'View Details'}
               </a>
             </div>` : ''}
         </div>
