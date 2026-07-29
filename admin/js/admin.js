@@ -465,6 +465,36 @@ function renderAchievements() {
     </div>`;
   }).join('');
   initDragReorder();
+  renderCategoryManager();
+}
+
+function renderCategoryManager() {
+  const cats = [...new Set(achievements.map(a => a.category).filter(Boolean))].sort();
+  const container = document.getElementById('category-list');
+  if (!cats.length) { container.innerHTML = '<div class="empty-state"><p>No categories yet.</p></div>'; return; }
+  container.innerHTML = cats.map((c, i) => `
+    <div class="category-row" data-idx="${i}">
+      <span class="cat-badge" style="background:${(categoryColors[c] || '#6b7280')}22;color:${categoryColors[c] || '#6b7280'};">${escapeHtml(c)}</span>
+      <input type="text" class="cat-rename-input" value="${escapeHtml(c)}" data-old="${escapeHtml(c)}">
+      <span class="cat-count" style="font-size:12px;color:var(--muted);">${achievements.filter(a => a.category === c).length} items</span>
+      <button class="btn btn-ghost btn-sm cat-rename-btn" onclick="updateCategory(this)"><i class="fas fa-check"></i> Rename</button>
+    </div>
+  `).join('');
+}
+
+function updateCategory(btn) {
+  const row = btn.closest('.category-row');
+  const input = row.querySelector('.cat-rename-input');
+  const oldName = input.dataset.old;
+  const newName = input.value.trim();
+  if (!newName || oldName === newName) return;
+  achievements.forEach(a => { if (a.category === oldName) a.category = newName; });
+  categoryColors[newName] = categoryColors[oldName] || categoryColors.default;
+  delete categoryColors[oldName];
+  saveAchievementOrder();
+  renderAchievements();
+  renderStats();
+  toast('Category renamed');
 }
 
 function initDragReorder() {

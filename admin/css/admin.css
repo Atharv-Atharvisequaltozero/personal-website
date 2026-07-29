@@ -301,6 +301,13 @@ textarea.form-input { min-height: 80px; resize: vertical; line-height: 1.6; }
 .ach-admin-card:hover .ach-drag-handle { opacity: 1; }
 .ach-drag-handle:active { cursor: grabbing; }
 
+.category-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.category-row:last-child { border-bottom: none; }
+.cat-badge { display: inline-block; padding: 2px 10px; font-size: 12px; font-weight: 500; border-radius: 4px; min-width: 80px; text-align: center; }
+.cat-rename-input { flex: 1; min-width: 120px; padding: 6px 10px; font-size: 13px; font-family: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; color: var(--text); outline: none; }
+.cat-rename-input:focus { border-color: var(--muted); }
+.cat-count { white-space: nowrap; }
+
 .ach-admin-row {
   display: flex; gap: 24px; align-items: center;
 }
