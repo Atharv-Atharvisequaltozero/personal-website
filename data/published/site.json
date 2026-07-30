@@ -131,7 +131,7 @@
     { "question": "How can I contact Atharv?", "answer": "You can reach Atharv through the contact form below or via the social media links in the footer." }
   ],
   "contact": {
-    "formspree_id": "",
+    "formspree_id": "xrenjgln",
     "note": "Create a free form at formspree.io and paste your form ID above to enable the contact form."
   }
 }

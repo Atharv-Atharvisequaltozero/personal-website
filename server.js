@@ -96,7 +96,7 @@ function ensureDirs() {
         { question: "What do you do?", answer: "Describe your work or studies." },
         { question: "How can I reach you?", answer: "Use the contact form below!" }
       ],
-      contact: { formspree_id: "", note: "Create a free form at formspree.io and paste your form ID here." }
+      contact: { formspree_id: "xrenjgln", note: "Create a free form at formspree.io and paste your form ID here." }
     });
   }
   if (!fs.existsSync(draftAch)) writeJSON(draftAch, []);
