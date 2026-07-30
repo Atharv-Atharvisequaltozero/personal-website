@@ -444,7 +444,7 @@ function renderAchievements() {
     const side = i % 2 === 0 ? 'left' : 'right';
     const firstSrc = hasPhoto ? ach.photos[0].src : '';
     const photoHtml = hasPhoto
-      ? `<img src="${firstSrc}" alt="${escapeHtml(ach.achievement)}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+      ? `<img src="${firstSrc}" alt="${escapeHtml(ach.achievement)}" style="width:100%;height:100%;object-fit:contain;display:block;background:var(--surface);">`
       : `<div class="ach-card-add-photo"><i class="fas fa-plus"></i><span>Add photos</span></div>`;
     return `<div class="ach-admin-card" draggable="true" data-ach-id="${ach.id}" data-ach-index="${i}">
       <div class="ach-drag-handle" draggable="true"><i class="fas fa-grip-vertical"></i></div>
@@ -710,8 +710,11 @@ async function saveDraft() {
 
 async function publishSite() {
   try {
-    await saveDraft();
-    const res = await fetch('/api/publish', { method: 'POST', headers: authHeaders() });
+    const res = await fetch('/api/publish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
+      body: JSON.stringify({ site: draft, achievements })
+    });
     if (res.ok) toast('Site published!', 'success');
     else toast('Publish failed', 'error');
   } catch (err) { toast('Publish error', 'error'); }
@@ -848,7 +851,7 @@ function renderEditorCanvas() {
         const side = i % 2 === 0 ? 'left' : 'right';
         const hasPhoto = ach.photos && ach.photos.length;
         const photoHtml = hasPhoto
-          ? `<img src="${ach.photos[0].src}" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;">`
+          ? `<img src="${ach.photos[0].src}" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:8px;background:var(--surface);">`
           : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:24px;"><i class="fas fa-image"></i></div>`;
         return `<div style="padding:20px 0;border-bottom:1px solid var(--border);">
           <div style="display:flex;gap:24px;align-items:center;flex-direction:${side === 'right' ? 'row-reverse' : 'row'}">

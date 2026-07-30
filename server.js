@@ -195,6 +195,10 @@ app.post('/api/restore', authRequired, (req, res) => {
 
 app.post('/api/publish', authRequired, (req, res) => {
   try {
+    if (req.body) {
+      if (req.body.site) writeJSON(path.join(DRAFT_DIR, 'site.json'), req.body.site);
+      if (req.body.achievements) writeJSON(path.join(DRAFT_DIR, 'achievements.json'), req.body.achievements);
+    }
     const site = readJSON(path.join(DRAFT_DIR, 'site.json'));
     const achievements = readJSON(path.join(DRAFT_DIR, 'achievements.json')) || [];
     const publishedAchievements = achievements.filter(a => a.public);
