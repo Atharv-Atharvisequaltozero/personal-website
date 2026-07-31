@@ -5,7 +5,7 @@
     "tagline": "Driven by curiosity, fueled by impact.",
     "description": "High school student passionate about leadership, STEM, and community service.",
     "email": "atharv.bagotra@gmail.com",
-    "footer": "\u00a9 2026 Atharv Bagotra. All rights reserved.",
+    "footer": "© 2026 Atharv Bagotra. All rights reserved.",
     "theme": "light"
   },
   "social": {
@@ -17,7 +17,7 @@
   },
   "home": {
     "hero_text": "Leading teams. Solving problems. Competing globally.",
-    "hero_sub": "Student leader, STEM enthusiast, and community organizer.\n\nFrom fundraising committees to world-level competitions \u2014 I turn ideas into impact.",
+    "hero_sub": "Student leader, STEM enthusiast, and community organizer.\n\nFrom fundraising committees to world-level competitions — I turn ideas into impact.",
     "hero_phrases": [
       "Odyssey of the Mind World Finalist",
       "VEX Robotics Nationals Division Quarterfinalist",
@@ -45,7 +45,7 @@
     {
       "icon": "fa-robot",
       "title": "VEX V5 2026-2027",
-      "description": "Competing as a team of 3 \u2014 Driver and Lead Builder. Targeting nationals."
+      "description": "Competing as a team of 3 — Driver and Lead Builder. Targeting nationals."
     },
     {
       "icon": "fa-globe",
@@ -168,5 +168,6 @@
   "contact": {
     "formspree_id": "xrenjgln",
     "note": "Create a free form at formspree.io and paste your form ID above to enable the contact form."
-  }
+  },
+  "tagline": "PROBE-TEST-AUTOSAVE"
 }
