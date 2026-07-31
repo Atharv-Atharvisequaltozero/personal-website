@@ -36,30 +36,107 @@ function writeJSON(filePath, data) {
 function commitToGit() {
   const cwd = __dirname;
   const token = process.env.GITHUB_TOKEN;
+  if (token) { pushViaApi(); return; }
   exec('git add data/ && (git diff --cached --quiet || git commit -m "auto-save")', { cwd, timeout: 15000 }, (err) => {
     if (err && !String(err.message).includes('nothing to commit')) {
       console.error('git commit error:', err.message);
       return;
     }
-    if (token) {
-      const remote = `https://Atharv-Atharvisequaltozero:${token}@github.com/Atharv-Atharvisequaltozero/personal-website.git`;
-      exec(`git push ${remote} main 2>&1`, { cwd, timeout: 30000 }, (e, out, serr) => {
-        if (e) console.error('git push error:', (serr || out || e.message));
-        else console.log('git push ok');
-      });
-    } else {
-      exec('git push', { cwd, timeout: 30000 }, (e, out, serr) => {
-        if (e) console.log('git push unavailable (read-only deploy key):', (serr || out || '').trim().slice(0, 200));
-      });
+    exec('git push', { cwd, timeout: 30000 }, (e, out, serr) => {
+      if (e) console.log('git push unavailable (read-only deploy key):', (serr || out || '').trim().slice(0, 200));
+    });
+  });
+}
+
+const https = require('https');
+
+function ghRequest(method, urlPath, token, body, callback) {
+  const req = https.request({
+    hostname: 'api.github.com',
+    path: urlPath,
+    method,
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json',
+      'User-Agent': 'atharv-personal-site'
     }
+  }, (res) => {
+    let data = '';
+    res.on('data', c => data += c);
+    res.on('end', () => {
+      let json = null;
+      try { json = JSON.parse(data); } catch {}
+      callback(res.statusCode, json);
+    });
+  });
+  req.on('error', e => callback(0, { error: e.message }));
+  if (body) req.write(JSON.stringify(body));
+  req.end();
+}
+
+function pushViaApi() {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) return;
+  const owner = 'Atharv-Atharvisequaltozero';
+  const repo = 'personal-website';
+  const branch = 'main';
+  const files = [
+    { path: 'data/draft/site.json', file: path.join(DRAFT_DIR, 'site.json') },
+    { path: 'data/draft/achievements.json', file: path.join(DRAFT_DIR, 'achievements.json') },
+    { path: 'data/published/site.json', file: path.join(PUB_DIR, 'site.json') },
+    { path: 'data/published/achievements.json', file: path.join(PUB_DIR, 'achievements.json') }
+  ].filter(f => fs.existsSync(f.file));
+  if (!files.length) return;
+
+  ghRequest('GET', `/repos/${owner}/${repo}/git/refs/heads/${branch}`, token, null, (code, refData) => {
+    if (code !== 200) { console.error('api push: get ref failed', code, refData && refData.message); return; }
+    const baseCommit = refData.object.sha;
+    const blobs = [];
+    let pending = files.length;
+    files.forEach((f, i) => {
+      const content = fs.readFileSync(f.file);
+      ghRequest('POST', `/repos/${owner}/${repo}/git/blobs`, token, { content: content.toString('base64'), encoding: 'base64' }, (c2, blobData) => {
+        if (c2 !== 201) { console.error('api push: blob failed', f.path, c2, blobData && blobData.message); pending = -1; return; }
+        blobs[i] = { path: f.path, sha: blobData.sha, mode: '100644', type: 'blob' };
+        if (--pending === 0) apiCommit(owner, repo, branch, token, baseCommit, blobs);
+      });
+    });
+  });
+}
+
+function apiCommit(owner, repo, branch, token, baseCommit, blobs) {
+  ghRequest('POST', `/repos/${owner}/${repo}/git/trees`, token, { base_tree: baseCommit, tree: blobs }, (c1, treeData) => {
+    if (c1 !== 201) { console.error('api push: tree failed', c1, treeData && treeData.message); return; }
+    ghRequest('POST', `/repos/${owner}/${repo}/git/commits`, token, {
+      message: 'auto-save', tree: treeData.sha, parents: [baseCommit]
+    }, (c2, commitData) => {
+      if (c2 !== 201) { console.error('api push: commit failed', c2, commitData && commitData.message); return; }
+      ghRequest('PATCH', `/repos/${owner}/${repo}/git/refs/heads/${branch}`, token, { sha: commitData.sha, force: false }, (c3, refData) => {
+        if (c3 === 200) console.log('api push ok:', commitData.sha.slice(0, 7));
+        else console.error('api push: ref failed', c3, refData && refData.message);
+      });
+    });
+  });
+}
+
+function checkToken(callback) {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) return callback(null, false);
+  ghRequest('GET', '/rate_limit', token, null, (code, data) => {
+    callback(code === 200, data && data.rate ? { limit: data.rate.limit, remaining: data.rate.remaining } : null);
   });
 }
 
 app.get('/api/status', authRequired, (req, res) => {
-  res.json({
-    hasToken: !!process.env.GITHUB_TOKEN,
-    node: process.env.RENDER_INSTANCE_ID || 'local',
-    time: new Date().toISOString()
+  checkToken((tokenWorks, rate) => {
+    res.json({
+      hasToken: !!process.env.GITHUB_TOKEN,
+      tokenWorks,
+      rate,
+      node: process.env.RENDER_INSTANCE_ID || 'local',
+      time: new Date().toISOString()
+    });
   });
 });
 
