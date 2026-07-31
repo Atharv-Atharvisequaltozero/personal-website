@@ -4,28 +4,32 @@
     "title": "Student & Leader",
     "tagline": "Driven by curiosity, fueled by impact.",
     "description": "High school student passionate about leadership, STEM, and community service.",
-    "email": "atharv@example.com",
-    "footer": "© 2026 Atharv Bagotra. All rights reserved.",
+    "email": "atharv.bagotra@gmail.com",
+    "footer": "\u00a9 2026 Atharv Bagotra. All rights reserved.",
     "theme": "light"
   },
   "social": {
     "linkedin": "",
+    "github": "",
     "facebook": "",
     "twitter": "",
-    "github": "",
     "instagram": ""
   },
   "home": {
     "hero_text": "Leading teams. Solving problems. Competing globally.",
-    "hero_sub": "Student leader, STEM enthusiast, and community organizer.\n\nFrom fundraising committees to world-level competitions — I turn ideas into impact.",
+    "hero_sub": "Student leader, STEM enthusiast, and community organizer.\n\nFrom fundraising committees to world-level competitions \u2014 I turn ideas into impact.",
     "hero_phrases": [
       "Odyssey of the Mind World Finalist",
-      "VEX Robotics State Finalist",
-      "Boy Scouts Troop 92 — Milpitas",
+      "VEX Robotics Nationals Division Quarterfinalist",
+      "Boy Scouts Troop 92 - Milpitas",
       "Open to internships & collaborations",
       "Organizer. Builder. Leader."
     ],
-    "featured": ["council", "stem", "scouts"]
+    "featured": [
+      "council",
+      "stem",
+      "scouts"
+    ]
   },
   "about": {
     "intro": "I'm a high school student who thrives at the intersection of leadership, innovation, and service. Whether it's organizing a recreational soccer league, competing at Odyssey of the Mind Worlds, or raising $1,000 for charity, I believe in taking initiative and making things happen.",
@@ -38,10 +42,26 @@
     "bio": "Growing up in Milpitas, I've always been drawn to leadership roles and hands-on problem solving. From founding my school's Origami Club to organizing recreational sports leagues and competing in international STEM competitions, I've learned that the best way to create change is to take action. Every experience has taught me something new about teamwork, resilience, and the power of community."
   },
   "now": [
-    { "icon": "fa-robot", "title": "VEX V5 2026-2027", "description": "Competing as a team of 3 — Driver and Lead Builder. Targeting nationals." },
-    { "icon": "fa-globe", "title": "MUN", "description": "Exploring international policy and AI governance." },
-    { "icon": "fa-brain", "title": "Learning", "description": "Developing my skills in AI, Python, and engineering." },
-    { "icon": "fa-rocket", "title": "Next", "description": "Exploring the intersection of AI, robotics, and public policy." }
+    {
+      "icon": "fa-robot",
+      "title": "VEX V5 2026-2027",
+      "description": "Competing as a team of 3 \u2014 Driver and Lead Builder. Targeting nationals."
+    },
+    {
+      "icon": "fa-globe",
+      "title": "MUN",
+      "description": "Exploring international policy and AI governance."
+    },
+    {
+      "icon": "fa-brain",
+      "title": "Learning",
+      "description": "Developing my skills in AI, Python, and engineering."
+    },
+    {
+      "icon": "fa-rocket",
+      "title": "Next",
+      "description": "Exploring the intersection of AI, robotics, and public policy."
+    }
   ],
   "activities": [
     {
@@ -124,11 +144,26 @@
     }
   ],
   "faq": [
-    { "question": "Who is Atharv Bagotra?", "answer": "Atharv Bagotra is a high school student based in Milpitas, California, passionate about leadership, STEM, and community service." },
-    { "question": "What competitions has Atharv participated in?", "answer": "Atharv is an Odyssey of the Mind World Finalist (2023 & 2024) and a VEX Robotics State Finalist (2024)." },
-    { "question": "What roles has Atharv held?", "answer": "Atharv served as Vice President of the Fundraising Committee at Curtner Student Council and is President of the Origami Club." },
-    { "question": "What is Atharv involved in outside of school?", "answer": "Atharv is a member of Boy Scouts of America Troop 92 in Milpitas, working toward his Tenderfoot rank, and competes in competitive soccer." },
-    { "question": "How can I contact Atharv?", "answer": "You can reach Atharv through the contact form below or via the social media links in the footer." }
+    {
+      "question": "Who is Atharv Bagotra?",
+      "answer": "Atharv Bagotra is a high school student based in Milpitas, California, passionate about leadership, STEM, and community service."
+    },
+    {
+      "question": "What competitions has Atharv participated in?",
+      "answer": "Atharv is an Odyssey of the Mind World Finalist (2023 & 2024) and a VEX Robotics State Finalist (2024)."
+    },
+    {
+      "question": "What roles has Atharv held?",
+      "answer": "Atharv served as Vice President of the Fundraising Committee at Curtner Student Council and is President of the Origami Club."
+    },
+    {
+      "question": "What is Atharv involved in outside of school?",
+      "answer": "Atharv is a member of Boy Scouts of America Troop 92 in Milpitas, working toward his Tenderfoot rank, and competes in competitive soccer."
+    },
+    {
+      "question": "How can I contact Atharv?",
+      "answer": "You can reach Atharv through the contact form below or via the social media links in the footer."
+    }
   ],
   "contact": {
     "formspree_id": "xrenjgln",
