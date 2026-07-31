@@ -36,24 +36,32 @@ function writeJSON(filePath, data) {
 function commitToGit() {
   const cwd = __dirname;
   const token = process.env.GITHUB_TOKEN;
-  exec('git add data/ && git diff --cached --quiet || git commit -m "auto-save"', { cwd, timeout: 15000 }, (err) => {
-    if (err && !err.message.includes('nothing to commit')) {
+  exec('git add data/ && (git diff --cached --quiet || git commit -m "auto-save")', { cwd, timeout: 15000 }, (err) => {
+    if (err && !String(err.message).includes('nothing to commit')) {
       console.error('git commit error:', err.message);
       return;
     }
     if (token) {
       const remote = `https://Atharv-Atharvisequaltozero:${token}@github.com/Atharv-Atharvisequaltozero/personal-website.git`;
-      exec(`git push ${remote} main`, { cwd, timeout: 30000 }, (e, out, serr) => {
-        if (e) console.error('git push error:', serr || e.message);
+      exec(`git push ${remote} main 2>&1`, { cwd, timeout: 30000 }, (e, out, serr) => {
+        if (e) console.error('git push error:', (serr || out || e.message));
         else console.log('git push ok');
       });
     } else {
       exec('git push', { cwd, timeout: 30000 }, (e, out, serr) => {
-        if (e) console.log('git push unavailable (read-only deploy key)');
+        if (e) console.log('git push unavailable (read-only deploy key):', (serr || out || '').trim().slice(0, 200));
       });
     }
   });
 }
+
+app.get('/api/status', authRequired, (req, res) => {
+  res.json({
+    hasToken: !!process.env.GITHUB_TOKEN,
+    node: process.env.RENDER_INSTANCE_ID || 'local',
+    time: new Date().toISOString()
+  });
+});
 
 function signToken(payload) {
   const data = Buffer.from(JSON.stringify(payload)).toString('base64url');
@@ -214,6 +222,9 @@ app.get('/api/published', (req, res) => {
   const site = readJSON(path.join(PUB_DIR, 'site.json'));
   const achievements = readJSON(path.join(PUB_DIR, 'achievements.json')) || [];
   if (!site) return res.status(404).json({ error: 'No published content' });
+  const draft = readJSON(path.join(DRAFT_DIR, 'site.json')) || {};
+  if (draft.contact && !site.contact) site.contact = draft.contact;
+  else if (draft.contact && draft.contact.formspree_id && !site.contact.formspree_id) site.contact.formspree_id = draft.contact.formspree_id;
   res.json({ site, achievements });
 });
 
